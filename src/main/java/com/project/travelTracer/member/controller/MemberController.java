@@ -24,7 +24,7 @@ public class MemberController {
     public String save(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("MemberController.save");
         System.out.println("memberDTO = " + memberDTO);
-        MemberSer
+        memberService.save(memberDTO);
         return "index";
     }
 }
