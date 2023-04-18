@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -25,6 +27,26 @@ public class MemberController {
         System.out.println("MemberController.save");
         System.out.println("memberDTO = " + memberDTO);
         memberService.save(memberDTO);
-        return "index";
+        return "login";
+    }
+
+    @GetMapping("/member/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    @PostMapping("/member/login")
+    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        MemberDTO loginResult = memberService.login(memberDTO);
+        if(loginResult != null) {
+            //로그인 성공
+            //로그인 상태에서 회원정보가 유지되기 위해 세션값을 제공
+            session.setAttribute("loginEmail", loginResult.getMemberEmail());
+            return "main";
+        }
+        else {
+            //실패
+            return "login";
+        }
     }
 }
