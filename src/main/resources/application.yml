@@ -6,4 +6,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://
+    url : jdbc:mysql://localhost:3306/TravelTracer?serverTimezone=Asia/Seoul
+    username: root
+    password: 3251840aa!
+    thymeleaf:
+      cache: false
+
+# spring data jpa 설정
+  jpa :
+    database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql : true
+    hibernate:
+      ddl-auto : create
