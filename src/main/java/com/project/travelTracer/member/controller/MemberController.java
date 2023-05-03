@@ -55,7 +55,7 @@ public class MemberController {
     @GetMapping("/member/members")
     public String findAll(Model model) {
         List<MemberDTO> memberDTOList = memberService.findAll();
-        model.addAttribute("memberList", memberDTOList)
+        model.addAttribute("memberList", memberDTOList);
         return "memberList";
     }
 }
