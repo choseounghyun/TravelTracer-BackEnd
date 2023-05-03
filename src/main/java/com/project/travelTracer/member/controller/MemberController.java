@@ -41,7 +41,7 @@ public class MemberController {
         if(loginResult != null) {
             //로그인 성공
             //로그인 상태에서 회원정보가 유지되기 위해 세션값을 제공
-            session.setAttribute("loginEmail", loginResult.getMemberEmail());
+            session.setAttribute("loginEmail", loginResult.getMemberLoginID());
             return "main";
         }
         else {

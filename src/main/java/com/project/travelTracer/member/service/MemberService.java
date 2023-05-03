@@ -21,10 +21,10 @@ public class MemberService {
     }
 
     public MemberDTO login(MemberDTO memberDTO) {
-        Optional<MemberEntity> memberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
-        if(memberEmail.isPresent()) {
+        Optional<MemberEntity> memberLoginID = memberRepository.findByMemberLoginID(memberDTO.getMemberLoginID());
+        if(memberLoginID.isPresent()) {
             //isPresent() 는 조회 결과가 있는지(null 값이 아닌지)
-            MemberEntity memberEntity = memberEmail.get();
+            MemberEntity memberEntity = memberLoginID.get();
             //들어온 이메일을 가진 정보의 비밀번호와 DB의 비밀번호가 일치하는 지 확인
             if(memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
                 //entity -> DTO로 변환
