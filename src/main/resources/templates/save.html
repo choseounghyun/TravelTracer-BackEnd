@@ -6,16 +6,16 @@
 </head>
 <body>
 <!-- action 속성 : form에 작성한 데이터를 어디로 보낼지 지정-->
-<form action="/member/save" method="post">
+<form action="/user/save" method="post">
     <!-- name속성 : 서버로 전송할 때 변수이름의 역할-->
-    아이디 : <input type="text" name="memberLoginID"> <br>
-    비밀번호 : <input type="password" name="memberPassword"> <br>
-    이름 : <input type="text" name="memberName"> <br>
-    성별 : <input type="radio" name="memberGender">남
-        <input type="radio" name="memberGender">여 <br><br>
+    아이디 : <input type="text" name="userLoginID"> <br>
+    비밀번호 : <input type="password" name="userPassword"> <br>
+    이름 : <input type="text" name="userName"> <br>
+    성별 : <input type="radio" name="userGender">남
+        <input type="radio" name="userGender">여 <br><br>
     연락처 : <br>
-    <select name="memberPhoneAgency" style="width:60px; height:20.5px">
-        <option value="memberPhoneAgency"> 선택 </option>
+    <select name="userPhoneAgency" style="width:60px; height:20.5px">
+        <option value="userPhoneAgency"> 선택 </option>
         <option value="KT">KT</option>
         <option value="LGU+">LGU+</option>
         <option value="SKT">SKT</option>
@@ -23,7 +23,7 @@
     <input type="text" maxlength="3" size="3" name="phone1"> -
     <input type="text" maxlength="4" size="4" name="phone2"> -
     <input type="text" maxlength="4" size="4" name="phone3"> <br><br>
-    이메일 : <input type="text" name="memberEmail"> <br>
+    이메일 : <input type="text" name="userEmail"> <br>
 
     <input type="submit" value="회원가입">
 </form>
