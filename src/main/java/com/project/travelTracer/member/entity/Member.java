@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -27,12 +28,27 @@ public class Member {
     @Column(nullable = false, length = 30)
     private String userName; //이름
 
-    @Column(nullable = false, length = 30)
-    private String userNickName;
-
     @Column(nullable = false, length=30)
     private Integer age; //나이
 
     @Enumerated(EnumType.STRING)
     private Role role; //권한 -> USER, ADMIN
+
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.userPassword = passwordEncoder.encode(userPassword);
+    }
+
+    public void updateName(String userName){
+        this.userName = userName;
+    }
+
+    public void updateAge(int age){
+        this.age = age;
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String userPassword) {
+        this.userPassword = passwordEncoder.encode(userPassword);
+    }
+
 }
