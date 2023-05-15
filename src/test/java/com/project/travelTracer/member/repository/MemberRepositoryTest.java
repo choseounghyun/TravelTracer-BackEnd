@@ -51,7 +51,7 @@ class MemberRepositoryTest {
 
     //회원 가입시 아이디가 없을 때
     @Test
-    public void join_notHavingId() throws Exception{
+    public void join_notHaving_id() throws Exception{
         Member member = Member.builder().
                 userPassword("3251840aa!").
                 userName("이예찬").
@@ -59,5 +59,25 @@ class MemberRepositoryTest {
                 role(Role.USER).build();
 
         assertThrows(Exception.class, () -> memberRepository.save(member));
+    }
+
+    @Test
+    public void duplicated_id() throws Exception{
+        Member member1 = Member.builder().
+                userId("userId").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        Member member2 = Member.builder().
+                userId("userId").
+                userPassword("11111!").
+                userName("이명석").
+                age(26).
+                role(Role.USER).build();
+
+        memberRepository.save(member1);
+        assertThrows(Exception.class, () -> memberRepository.save(member2));
     }
 }
