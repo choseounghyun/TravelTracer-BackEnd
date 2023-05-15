@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,11 @@ class MemberRepositoryTest {
 
     @AfterEach
     private void after(){
+        em.clear();
+    }
+
+    private void clear() {
+        em.flush();
         em.clear();
     }
 
@@ -61,6 +67,7 @@ class MemberRepositoryTest {
         assertThrows(Exception.class, () -> memberRepository.save(member));
     }
 
+    //중복 아이가 있는지 테스트
     @Test
     public void duplicated_id() throws Exception{
         Member member1 = Member.builder().
@@ -78,6 +85,42 @@ class MemberRepositoryTest {
                 role(Role.USER).build();
 
         memberRepository.save(member1);
+        clear();
         assertThrows(Exception.class, () -> memberRepository.save(member2));
     }
+
+    //회원 수정 테스트
+    @Test
+    public void update() throws Exception {
+        Member member1 = Member.builder().
+                userId("userId").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        memberRepository.save(member1);
+        clear();
+
+        String updatePassword = "123456";
+        String updateName = "조승현";
+        int updateAge = 26;
+
+        //비밀번호 암호화 메소드 제공
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        Member findMember = memberRepository.findById(member1.getId()).orElseThrow(() -> new Exception());
+        findMember.updateAge(updateAge);
+        findMember.updateName(updateName);
+        findMember.updatePassword(passwordEncoder, updatePassword);
+        em.flush();
+
+        Member updateMember = memberRepository.findById(findMember.getId()).orElseThrow(() -> new Exception());
+        assertThat(updateMember).isEqualTo(findMember); //변경한 회원과 저장된 회원이 같은 주소를 가르키는 지
+        assertThat(passwordEncoder.matches(updatePassword, updateMember.getUserPassword())).isTrue(); //암호화하지 않은 비밀번호와 암호화한 비밀번호가 같은지
+        assertThat(updateMember.getUserName()).isEqualTo(updateName);
+
+    }
+
+
 }
