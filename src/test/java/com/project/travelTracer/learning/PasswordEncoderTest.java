@@ -24,5 +24,6 @@ public class PasswordEncoderTest {
         assertThat(encodePassword).startsWith("{");
         assertThat(encodePassword).contains("{bcrypt}");
         assertThat(encodePassword).isNotEqualTo(password);
+        assertThat(passwordEncoder.matches(password,encodePassword)).isTrue();
     }
 }
