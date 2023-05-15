@@ -122,5 +122,37 @@ class MemberRepositoryTest {
 
     }
 
+    //회원 삭제 테스트
+    @Test
+    public void delete() throws Exception {
+        Member member1 = Member.builder().
+                userId("userId").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+        memberRepository.save(member1);
+        clear();
 
+        memberRepository.delete(member1);
+        clear();
+
+        assertThrows(Exception.class, () -> memberRepository.findById(member1.getId()).orElseThrow(() -> new Exception()));
+    }
+
+    //existByUserId
+    @Test
+    public void existByUserId() throws Exception {
+        Member member1 = Member.builder().
+                userId("dldpcks1111").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        memberRepository.save(member1);
+        clear();
+
+        assertThat(memberRepository.existsByUserId("dldpcks1111")).isTrue();
+    }
 }
