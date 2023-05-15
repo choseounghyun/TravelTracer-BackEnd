@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Temporal;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -155,4 +157,24 @@ class MemberRepositoryTest {
 
         assertThat(memberRepository.existsByUserId("dldpcks1111")).isTrue();
     }
+
+    @Test
+    public void findByUserID() throws Exception {
+        Member member1 = Member.builder().
+                userId("dldpcks1111").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        memberRepository.save(member1);
+        clear();
+
+        Optional<Member> fm = memberRepository.findByUserId("dldpcks1111");
+        Member findMember = fm.get();
+
+        assertThat(findMember.getUserName()).isEqualTo(member1.getUserName());
+    }
+
+    @
 }
