@@ -48,4 +48,16 @@ class MemberRepositoryTest {
         assertThat(findMember).isSameAs(member);
 
     }
+
+    //회원 가입시 아이디가 없을 때
+    @Test
+    public void join_notHavingId() throws Exception{
+        Member member = Member.builder().
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        assertThrows(Exception.class, () -> memberRepository.save(member));
+    }
 }
