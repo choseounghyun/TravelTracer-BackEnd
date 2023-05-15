@@ -1,5 +1,6 @@
 package com.project.travelTracer.member.entity;
 
+import com.project.travelTracer.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_id")
