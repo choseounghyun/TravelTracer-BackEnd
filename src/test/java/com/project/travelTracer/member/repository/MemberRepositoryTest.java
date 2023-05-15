@@ -176,5 +176,23 @@ class MemberRepositoryTest {
         assertThat(findMember.getUserName()).isEqualTo(member1.getUserName());
     }
 
-    @
+    //생성시간 조회
+    @Test
+    public void time() throws Exception {
+
+        Member member1 = Member.builder().
+                userId("dldpcks1111").
+                userPassword("3251840aa!").
+                userName("이예찬").
+                age(29).
+                role(Role.USER).build();
+
+        memberRepository.save(member1);
+        clear();
+
+        Member member = memberRepository.findById(member1.getId()).orElseThrow(() -> new Exception());
+
+        assertThat(member.getCreatedDate()).isNotNull();
+        assertThat(member.getLastModifiedDate()).isNotNull();
+    }
 }
