@@ -18,4 +18,15 @@ spring:
     open-in-view: false
     show-sql : true
     hibernate:
-      ddl-auto : update
+      ddl-auto : create
+
+  logging:
+    level:
+      org:
+        apache:
+          coyote:
+            http11: debug
+
+        hibernate:
+          SQL: debug
+
