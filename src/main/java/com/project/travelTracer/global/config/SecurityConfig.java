@@ -2,6 +2,9 @@ package com.project.travelTracer.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.travelTracer.global.login.filter.JsonUsernamePasswordAuthenticationFilter;
+import com.project.travelTracer.global.login.handler.LoginFailureHandler;
+import com.project.travelTracer.global.login.handler.LoginSuccessJWTProvideHandler;
+import com.project.travelTracer.member.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +22,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final LoginService loginService;
     private final ObjectMapper objectMapper;
 
     @Bean
@@ -46,14 +50,27 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(loginService);
         return new ProviderManager(provider);
     }
+
+    @Bean
+    public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler() {
+        return new LoginSuccessJWTProvideHandler();
+    }
+
+    @Bean
+    public LoginFailureHandler loginFailureHandler() {
+        return new LoginFailureHandler();
+    }
+
 
     @Bean
     public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordFilter() {
         JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordFilter = new JsonUsernamePasswordAuthenticationFilter(objectMapper);
         jsonUsernamePasswordFilter.setAuthenticationManager(authenticationManager());
-
+        jsonUsernamePasswordFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
+        jsonUsernamePasswordFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return jsonUsernamePasswordFilter;
     }
 }
