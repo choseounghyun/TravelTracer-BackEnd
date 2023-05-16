@@ -1,6 +1,8 @@
 package com.project.travelTracer.member.entity;
 
 import com.project.travelTracer.BaseTimeEntity;
+import com.project.travelTracer.Post.entity.Comment;
+import com.project.travelTracer.Post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "member")
 @Getter
@@ -38,6 +42,23 @@ public class Member extends BaseTimeEntity {
     @Column(length = 1000)
     private String refreshToken;
 
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
+
+    public void addPost(Post post){
+        //post의 writer 설정은 post에서 함
+        postList.add(post);
+    }
+
+    public void addComment(Comment comment){
+        //comment의 writer 설정은 comment에서 함
+        commentList.add(comment);
+    }
+
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
@@ -63,5 +84,7 @@ public class Member extends BaseTimeEntity {
     public void updatePassword(PasswordEncoder passwordEncoder, String userPassword) {
         this.userPassword = passwordEncoder.encode(userPassword);
     }
+
+
 
 }
