@@ -110,4 +110,39 @@ public class LoginTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
+    //로그인 주소가 다를 때
+    @Test
+    public void login_fail_address() throws Exception {
+        Map<String, String> map = getUserIdPasswordMap(USERID, PASSWORD);
+        perform(LOGIN_URL+"234", MediaType.APPLICATION_JSON, map)
+                .andDo(print())
+                .andExpect(status().isForbidden());
+
+    }
+
+    //로그인 형식이 json이 아닐경우
+    @Test
+    public void login_fail_mediaType() throws Exception {
+        //given
+        Map<String, String> map = getUserIdPasswordMap(USERID, PASSWORD);
+
+        //when, then
+        perform(LOGIN_URL, MediaType.APPLICATION_ATOM_XML, map)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void login_fail_notPost() throws Exception{
+        Map<String, String> map = getUserIdPasswordMap(USERID, PASSWORD);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get(LOGIN_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(map)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 }

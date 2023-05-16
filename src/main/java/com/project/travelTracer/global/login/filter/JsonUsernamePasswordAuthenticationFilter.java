@@ -34,7 +34,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
             new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);
 
     public JsonUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper) {
-        super(DEFAULT_LOGIN_REQUEST_URL);
+        super(DEFAULT_MATCHER);
         this.objectMapper = objectMapper;
     }
 
