@@ -1,9 +1,12 @@
 package com.project.travelTracer.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.travelTracer.global.login.filter.JsonUsernamePasswordAuthenticationFilter;
+import com.project.travelTracer.global.jwt.service.JwtService;
+import com.project.travelTracer.global.login.filter.JsonUserIdPasswordAuthenticationFilter;
+import com.project.travelTracer.global.login.filter.JwtAuthenticationProcessingFilter;
 import com.project.travelTracer.global.login.handler.LoginFailureHandler;
 import com.project.travelTracer.global.login.handler.LoginSuccessJWTProvideHandler;
+import com.project.travelTracer.member.repository.MemberRepository;
 import com.project.travelTracer.member.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +27,8 @@ public class SecurityConfig {
 
     private final LoginService loginService;
     private final ObjectMapper objectMapper;
+    private final MemberRepository memberRepository;
+    private final JwtService jwtService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -38,6 +43,7 @@ public class SecurityConfig {
                 .antMatchers("/login", "signUp", "/").permitAll()
                 .anyRequest().authenticated();
         http.addFilterAfter(jsonUsernamePasswordFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUserIdPasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -56,7 +62,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler() {
-        return new LoginSuccessJWTProvideHandler();
+        return new LoginSuccessJWTProvideHandler(jwtService, memberRepository);
     }
 
     @Bean
@@ -66,11 +72,18 @@ public class SecurityConfig {
 
 
     @Bean
-    public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordFilter() {
-        JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordFilter = new JsonUsernamePasswordAuthenticationFilter(objectMapper);
+    public JsonUserIdPasswordAuthenticationFilter jsonUsernamePasswordFilter() {
+        JsonUserIdPasswordAuthenticationFilter jsonUsernamePasswordFilter = new JsonUserIdPasswordAuthenticationFilter(objectMapper);
         jsonUsernamePasswordFilter.setAuthenticationManager(authenticationManager());
         jsonUsernamePasswordFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
         jsonUsernamePasswordFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return jsonUsernamePasswordFilter;
+    }
+
+    @Bean
+    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter(){
+        JwtAuthenticationProcessingFilter jsonUserIdPasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository);
+
+        return jsonUserIdPasswordLoginFilter;
     }
 }

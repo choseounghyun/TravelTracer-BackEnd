@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StreamUtils;
 
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String DEFAULT_LOGIN_REQUEST_URL = "/login";
 
@@ -33,7 +32,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
     private static final AntPathRequestMatcher DEFAULT_MATCHER =
             new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);
 
-    public JsonUsernamePasswordAuthenticationFilter(ObjectMapper objectMapper) {
+    public JsonUserIdPasswordAuthenticationFilter(ObjectMapper objectMapper) {
         super(DEFAULT_MATCHER);
         this.objectMapper = objectMapper;
     }
