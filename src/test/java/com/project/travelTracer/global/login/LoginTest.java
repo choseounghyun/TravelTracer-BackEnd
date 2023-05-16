@@ -5,6 +5,7 @@ import com.project.travelTracer.member.entity.Member;
 import com.project.travelTracer.member.entity.Role;
 import com.project.travelTracer.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,9 @@ import javax.xml.transform.Result;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @SpringBootTest
@@ -43,7 +48,7 @@ public class LoginTest {
     private static String USERID = "dldpcks345";
     private static String PASSWORD = "123456789";
 
-    private static String LOGIN_RUL = "/login";
+    private static String LOGIN_URL = "/login";
 
     private void clear(){
         em.flush();
@@ -73,5 +78,15 @@ public class LoginTest {
                 .post(url)
                 .contentType(mediaType)
                 .content(objectMapper.writeValueAsString(userIdPasswordMap)));
+    }
+
+    //로그인 성공 테스트
+    @Test
+    public void login() throws Exception {
+        Map<String, String> map = getUserIdPasswordMap(USERID, PASSWORD);
+        MvcResult result = perform(LOGIN_URL, MediaType.APPLICATION_JSON, map)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }
