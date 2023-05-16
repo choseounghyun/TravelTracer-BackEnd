@@ -49,8 +49,6 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
 
     public static User toUserEntity(UserDTO userDTO) {
         User user = new User();

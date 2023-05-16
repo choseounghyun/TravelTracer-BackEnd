@@ -20,7 +20,7 @@ public class Post {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "wirter_id")
+    @JoinColumn(name = "writer_id")
     private Member writer;
 
     @Column(length = 40, nullable = false)
@@ -33,15 +33,11 @@ public class Post {
     @Column(nullable = true)
     private String filePath;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+
 
     public void confirmWriter(Member writer) {
         this.writer = writer;
         writer.addPost(this);
-    }
-    public void addComment(Comment comment) {
-        commentList.add(comment);
     }
 
     public void updateTitle(String title) {

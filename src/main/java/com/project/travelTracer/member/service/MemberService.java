@@ -5,7 +5,7 @@ import com.project.travelTracer.member.dto.MemberSignUpDto;
 import com.project.travelTracer.member.dto.MemberUpdateDto;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface MemberService {
 
     /**

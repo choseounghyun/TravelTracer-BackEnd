@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
+
 public class MemberSignUpDto {
 
     String userId;
@@ -18,6 +19,13 @@ public class MemberSignUpDto {
     String userName;
 
     Integer age;
+
+    public MemberSignUpDto(String userId, String userPassword, String userName, Integer age) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.age = age;
+    }
 
     public Member toEntity() {
         return Member.builder().userId(userId)
