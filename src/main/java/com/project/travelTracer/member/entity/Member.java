@@ -3,10 +3,7 @@ package com.project.travelTracer.member.entity;
 import com.project.travelTracer.BaseTimeEntity;
 import com.project.travelTracer.Post.entity.Comment;
 import com.project.travelTracer.Post.entity.Post;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -15,7 +12,7 @@ import java.util.List;
 
 @Table(name = "member")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @AllArgsConstructor
 @Builder
@@ -86,5 +83,12 @@ public class Member extends BaseTimeEntity {
     }
 
 
+    //비밀번호 변경, 회원 정보 수정,삭제 시 비밀번호를 확인하기 위한 메서드
+    public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
+        return passwordEncoder.matches(checkPassword, getUserPassword());
+    }
 
+    public void addUserAuthority() {
+        this.role = Role.USER;
+    }
 }
