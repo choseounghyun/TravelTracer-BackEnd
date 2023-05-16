@@ -89,4 +89,25 @@ public class LoginTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
+    //로그인 실패 - 아이디 오류
+    @Test
+    public void login_fail_byID() throws Exception {
+        Map<String, String> map = getUserIdPasswordMap(USERID+"123", PASSWORD);
+
+        MvcResult result = perform(LOGIN_URL, MediaType.APPLICATION_JSON, map)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+    }
+
+    //로그인 실패 - 비밀번호 오류
+    public void login_fail_byPW() throws Exception {
+        Map<String, String> map = getUserIdPasswordMap(USERID, PASSWORD+"123");
+        MvcResult result = perform(LOGIN_URL, MediaType.APPLICATION_JSON, map)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 }
