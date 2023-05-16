@@ -14,6 +14,7 @@ import java.io.IOException;
 @Slf4j
 public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         log.info("로그인에 성공합니다 JWT를 발급합니다. userID : {}",userDetails.getUsername());
