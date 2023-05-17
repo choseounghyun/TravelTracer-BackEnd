@@ -26,8 +26,8 @@ public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticati
 
     private final ObjectMapper objectMapper;
 
-    private static final String USERNAME_KEY = "username";
-    private static final String PASSWORD_KEY = "password";
+    private static final String USERId_KEY = "userId";
+    private static final String PASSWORD_KEY = "userPassword";
 
     private static final AntPathRequestMatcher DEFAULT_MATCHER =
             new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);
@@ -43,12 +43,12 @@ public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticati
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-        Map<String, String> userNamePasswordMap = objectMapper.readValue(messageBody, Map.class);
+        Map<String, String> userIdPasswordMap = objectMapper.readValue(messageBody, Map.class);
 
-        String userName = userNamePasswordMap.get(USERNAME_KEY);
-        String password = userNamePasswordMap.get(PASSWORD_KEY);
+        String userId = userIdPasswordMap.get(USERId_KEY);
+        String password = userIdPasswordMap.get(PASSWORD_KEY);
 
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userId, password);
 
         return this.getAuthenticationManager().authenticate(authRequest);
     }

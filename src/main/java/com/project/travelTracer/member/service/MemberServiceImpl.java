@@ -7,6 +7,7 @@ import com.project.travelTracer.member.dto.MemberUpdateDto;
 import com.project.travelTracer.member.entity.Member;
 import com.project.travelTracer.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.ExpressionException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
@@ -27,12 +29,13 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberSignUpDto.toEntity();
         member.addUserAuthority();
         member.encodePassword(passwordEncoder);
-
+        log.info("여까지들어옴");
         if(memberRepository.findByUserId(memberSignUpDto.getUserId()).isPresent()){
             throw new Exception("이미 존재하는 회원입니다");
         }
 
         memberRepository.save(member);
+        log.info("save 메소드 실행");
     }
 
     @Override
