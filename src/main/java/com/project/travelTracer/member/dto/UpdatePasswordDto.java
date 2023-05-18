@@ -1,6 +1,7 @@
 package com.project.travelTracer.member.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UpdatePasswordDto {
 
     @NotBlank(message = "비밀번호를 입력해주세요")
@@ -23,7 +25,4 @@ public class UpdatePasswordDto {
         this.tobePassword = tobePassword;
     }
 
-    public UpdatePasswordDto() {
-
-    }
 }

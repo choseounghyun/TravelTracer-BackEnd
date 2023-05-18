@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +23,13 @@ public class MemberController {
     //회원가입
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public void signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto) throws  Exception {
+    public ResponseEntity<MemberSignUpDto> signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto, BindingResult bindingResult) throws  Exception {
+        if(bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
         log.info("info memberSignUPDto={}", memberSignUpDto);
         memberService.signUp(memberSignUpDto);
-
+        return ResponseEntity.ok(memberSignUpDto);
     }
 
     //회원정보수정

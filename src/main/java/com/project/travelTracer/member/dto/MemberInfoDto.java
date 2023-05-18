@@ -6,15 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MemberInfoDto {
 
     private String id;
     private String username;
     private Integer age;
 
-    public MemberInfoDto() {
-
-    }
 
     @Builder
     public MemberInfoDto(Member member) {
