@@ -1,5 +1,7 @@
 package com.project.travelTracer.member.controller;
 
+import com.project.travelTracer.global.common.CommonDetailResponse;
+import com.project.travelTracer.global.common.CommonResponse;
 import com.project.travelTracer.member.dto.*;
 import com.project.travelTracer.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,6 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
-
 
     //회원가입
     @PostMapping("/signUp")
@@ -67,6 +68,15 @@ public class MemberController {
         return new ResponseEntity(info, HttpStatus.OK);
     }
 
+    //회원아이디중복확인
+    @GetMapping("/check/{userId}")
+    public ResponseEntity<CommonResponse> checkIdDuplicate(@Valid @PathVariable("userId") String userId) throws Exception {
+        Boolean check = memberService.checkIdDuplicate(userId);
+        if(check == true) {
+            return ResponseEntity.ok(new CommonResponse(400, "실패", new CommonDetailResponse<>(check)));
+        }
+        return ResponseEntity.ok(new CommonResponse(200, "성공", new CommonDetailResponse<>(check)));
+    }
 
 
 }

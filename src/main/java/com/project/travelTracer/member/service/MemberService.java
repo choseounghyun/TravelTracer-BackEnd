@@ -23,4 +23,7 @@ public interface MemberService {
     MemberInfoDto getInfo(Long id) throws Exception;
 
     MemberInfoDto getMyInfo() throws Exception;
+
+    boolean checkIdDuplicate(String userId) throws Exception;
+
 }

@@ -1,6 +1,6 @@
 package com.project.travelTracer.member.entity;
 
-import com.project.travelTracer.BaseTimeEntity;
+import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.Post.entity.Post;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -10,12 +10,9 @@ import com.project.travelTracer.member.exception.MemberExceptionType;
 import com.project.travelTracer.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.expression.ExpressionException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.Table;
 
 @Service
 @RequiredArgsConstructor
@@ -80,5 +77,10 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfoDto getMyInfo() throws Exception {
         Member findMember = memberRepository.findByUserId(SecurityUtil.getLoginUserId()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
         return new MemberInfoDto(findMember);
+    }
+
+    @Override
+    public boolean checkIdDuplicate(String userId) throws Exception {
+        return memberRepository.existsByUserId(userId);
     }
 }

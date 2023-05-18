@@ -1,4 +1,4 @@
-package com.project.travelTracer;
+package com.project.travelTracer.global.time;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
