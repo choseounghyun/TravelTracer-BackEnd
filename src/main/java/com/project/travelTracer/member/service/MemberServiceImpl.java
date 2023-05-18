@@ -29,6 +29,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = memberSignUpDto.toEntity();
         member.addUserAuthority();
         member.encodePassword(passwordEncoder);
+
         log.info("여까지들어옴");
         if(memberRepository.findByUserId(memberSignUpDto.getUserId()).isPresent()){
             throw new Exception("이미 존재하는 회원입니다");
