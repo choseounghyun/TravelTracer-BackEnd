@@ -1,6 +1,7 @@
 package com.project.travelTracer.global.login.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@Slf4j
 public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String DEFAULT_LOGIN_REQUEST_URL = "/login";
@@ -39,6 +41,10 @@ public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticati
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        log.info("여기까지들어오나???");
+        log.info("type= ",request.getContentType());
+        log.info(request.getParameter("userId"));
+
         if(request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)  ) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());
         }
@@ -47,6 +53,10 @@ public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticati
 
         String userId = userIdPasswordMap.get(USERId_KEY);
         String password = userIdPasswordMap.get(PASSWORD_KEY);
+
+        log.info("userid = {}" , userId);
+        log.info("password = {}" , password);
+
 
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userId, password);
 
