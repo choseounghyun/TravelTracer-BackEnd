@@ -24,13 +24,13 @@ public class MemberController {
     //회원가입
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<MemberSignUpDto> signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto, BindingResult bindingResult) throws  Exception {
+    public ResponseEntity<CommonResponse> signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto, BindingResult bindingResult) throws  Exception {
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         log.info("info memberSignUPDto={}", memberSignUpDto);
         memberService.signUp(memberSignUpDto);
-        return ResponseEntity.ok(memberSignUpDto);
+        return ResponseEntity.ok(new CommonResponse<>(200, "성공"));
     }
 
     //회원정보수정
