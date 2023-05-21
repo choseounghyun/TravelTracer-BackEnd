@@ -2,6 +2,7 @@ package com.project.travelTracer.global.login.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.travelTracer.global.common.CommonResponse;
+import com.project.travelTracer.global.login.response.LoginResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,13 +24,13 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         response.setCharacterEncoding("utf-8");
 
         response.setStatus(HttpServletResponse.SC_OK);
-        CommonResponse commonResponse = new CommonResponse();
-        commonResponse.setCode(200);
-        commonResponse.setMessage("실패");
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setCode(200);
+        loginResponse.setMessage("실패");
 
-        String result = objectMapper.writeValueAsString(commonResponse);
+        String result = objectMapper.writeValueAsString(loginResponse);
         response.getWriter().write(result);
-        
+
         log.info("로그인에 실패했습니다.");
     }
 }

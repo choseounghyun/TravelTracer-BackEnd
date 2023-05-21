@@ -44,6 +44,7 @@ public class JsonUserIdPasswordAuthenticationFilter extends AbstractAuthenticati
         log.info("여기까지들어오나???");
         log.info("type= ",request.getContentType());
         log.info(request.getParameter("userId"));
+        log.info(request.getParameter("userPassword"));
 
         if(request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)  ) {
             throw new AuthenticationServiceException("Authentication Content-Type not supported: " + request.getContentType());

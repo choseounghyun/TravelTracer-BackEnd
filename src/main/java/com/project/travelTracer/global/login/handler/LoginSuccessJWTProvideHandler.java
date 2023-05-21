@@ -1,6 +1,8 @@
 package com.project.travelTracer.global.login.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.travelTracer.global.jwt.service.JwtService;
+import com.project.travelTracer.global.login.response.LoginResponse;
 import com.project.travelTracer.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -34,6 +37,16 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         memberRepository.findByUserId(userID).ifPresent(
                 member -> member.updateRefreshToken(refreshToken)
         );
+
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setCode(200);
+        loginResponse.setMessage("성공");
+
+        String result = objectMapper.writeValueAsString(loginResponse);
+        response.getWriter().write(result);
+
 
         log.info( "로그인에 성공합니다. userID: {}" ,userID);
         log.info( "AccessToken 을 발급합니다. AccessToken: {}" ,accessToken);
