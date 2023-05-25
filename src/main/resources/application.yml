@@ -18,7 +18,7 @@ spring:
     open-in-view: false
     show-sql : true
     hibernate:
-      ddl-auto : create
+      ddl-auto : update
 
   profiles:
     include: jwt
@@ -32,4 +32,23 @@ spring:
 
         hibernate:
           SQL: debug
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: dldpcks34
+    password: 31290aA!
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+            auth : true
+            connection-timeout : 5000
+            timeout : 5000
+            write timeout : 5000
+            ssl :
+              #trust : smtp.naver.com
+              enable : true
 

@@ -1,5 +1,6 @@
 package com.project.travelTracer.member.service;
 
+import com.project.travelTracer.member.dto.FindIdDto;
 import com.project.travelTracer.member.dto.MemberInfoDto;
 import com.project.travelTracer.member.dto.MemberSignUpDto;
 import com.project.travelTracer.member.dto.MemberUpdateDto;
@@ -26,5 +27,5 @@ public interface MemberService {
 
     boolean checkIdDuplicate(String userId) throws Exception;
 
-
+    String findIdByEmail(String userEmail, String checkUserName) throws Exception;
 }

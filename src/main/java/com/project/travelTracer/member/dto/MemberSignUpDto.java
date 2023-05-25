@@ -29,7 +29,6 @@ public class MemberSignUpDto {
     @Range(min = 0, max = 150)
     Integer age;
 
-    @NotNull(message = "나이를 입력해주세요")
     @Email
     String userEmail;
 

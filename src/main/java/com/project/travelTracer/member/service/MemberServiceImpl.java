@@ -1,6 +1,7 @@
 package com.project.travelTracer.member.service;
 
 import com.project.travelTracer.global.util.SecurityUtil;
+import com.project.travelTracer.member.dto.FindIdDto;
 import com.project.travelTracer.member.dto.MemberInfoDto;
 import com.project.travelTracer.member.dto.MemberSignUpDto;
 import com.project.travelTracer.member.dto.MemberUpdateDto;
@@ -14,11 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService
+{
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -82,6 +86,21 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean checkIdDuplicate(String userId) throws Exception {
         return memberRepository.existsByUserId(userId);
+    }
+
+    @Override
+    public String findIdByEmail(String userEmail, String checkUserName) throws Exception {
+        log.info("서비스의 메소드 실행");
+        Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
+        Member member = null;
+        if (optionalMember.isPresent()) {
+            member = optionalMember.get();
+            if (member.getUserName().equals(checkUserName)) {
+                return member.getUserId();
+            }
+            return null;
+        }
+        return null;
     }
 
 

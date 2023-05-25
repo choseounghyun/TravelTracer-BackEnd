@@ -79,5 +79,16 @@ public class MemberController {
         return ResponseEntity.ok(new CommonResponse(200, "성공", new CommonDetailResponse<>(check)));
     }
 
-
+    @PostMapping ("/findId")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CommonResponse> findId(@Valid @RequestBody FindIdDto findIdDto) throws Exception {
+        log.info("실행되나?");
+        String checkEmail = findIdDto.getUserEmail();
+        String checkName = findIdDto.getUserName();
+        String id = memberService.findIdByEmail(checkEmail, checkName);
+        if(id==null) {
+            return ResponseEntity.ok(new CommonResponse(200, "실패"));
+        }
+        return ResponseEntity.ok(new CommonResponse(200, id));
+    }
 }
