@@ -12,6 +12,7 @@ public class MemberInfoDto {
     private String id;
     private String username;
     private Integer age;
+    private String userEmail;
 
 
     @Builder
@@ -19,5 +20,6 @@ public class MemberInfoDto {
         this.id = member.getUserId();
         this.username = member.getUserName();
         this.age = member.getAge();
+        this.userEmail = member.getUserEmail();
     }
 }

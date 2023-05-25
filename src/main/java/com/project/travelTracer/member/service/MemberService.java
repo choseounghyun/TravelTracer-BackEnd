@@ -26,4 +26,5 @@ public interface MemberService {
 
     boolean checkIdDuplicate(String userId) throws Exception;
 
+
 }

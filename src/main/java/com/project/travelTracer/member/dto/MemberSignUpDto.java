@@ -29,11 +29,16 @@ public class MemberSignUpDto {
     @Range(min = 0, max = 150)
     Integer age;
 
-    public MemberSignUpDto(String userId, String userPassword, String userName, Integer age) {
+    @NotNull(message = "나이를 입력해주세요")
+    @Email
+    String userEmail;
+
+    public MemberSignUpDto(String userId, String userPassword, String userName,String userEmail, Integer age) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userName = userName;
         this.age = age;
+        this.userEmail = userEmail;
     }
 
     public MemberSignUpDto() {
@@ -43,6 +48,7 @@ public class MemberSignUpDto {
     public Member toEntity() {
         return Member.builder().userId(userId)
                 .userPassword(userPassword)
+                .userEmail(userEmail)
                 .userName(userName)
                 .age(age)
                 .build();

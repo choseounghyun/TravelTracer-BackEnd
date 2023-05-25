@@ -83,4 +83,6 @@ public class MemberServiceImpl implements MemberService{
     public boolean checkIdDuplicate(String userId) throws Exception {
         return memberRepository.existsByUserId(userId);
     }
+
+
 }

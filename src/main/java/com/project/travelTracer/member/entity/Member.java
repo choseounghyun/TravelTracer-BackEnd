@@ -1,5 +1,6 @@
 package com.project.travelTracer.member.entity;
 
+import com.project.travelTracer.Comment.entity.Comment;
 import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.Post.entity.Post;
 import lombok.*;
@@ -32,6 +33,10 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false, length=30)
     private Integer age; //나이
 
+
+    @Column(nullable = false)
+    private String userEmail;//이메일
+
     @Enumerated(EnumType.STRING)
     private Role role; //권한 -> USER, ADMIN
 
@@ -43,11 +48,21 @@ public class Member extends BaseTimeEntity {
     private List<Post> postList = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
+
 
     public void addPost(Post post){
         //post의 writer 설정은 post에서 함
         postList.add(post);
     }
+
+    public void addComment(Comment comment){
+        //comment의 writer 설정은 comment에서 함
+        commentList.add(comment);
+    }
+
 
 
 

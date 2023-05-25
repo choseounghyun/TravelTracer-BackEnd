@@ -1,5 +1,6 @@
 package com.project.travelTracer.Post.entity;
 
+import com.project.travelTracer.Comment.entity.Comment;
 import com.project.travelTracer.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,7 +34,9 @@ public class Post {
     @Column(nullable = true)
     private String filePath;
 
-
+    //== 게시글을 삭제하면 달려있는 댓글 모두 삭제 ==//
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
 
     public void confirmWriter(Member writer) {
         this.writer = writer;
@@ -42,6 +45,11 @@ public class Post {
 
     public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public void addComment(Comment comment){
+        //comment의 Post 설정은 comment에서 함
+        commentList.add(comment);
     }
 
     public void updateContent(String content) {
