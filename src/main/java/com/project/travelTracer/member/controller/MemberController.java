@@ -3,12 +3,13 @@ package com.project.travelTracer.member.controller;
 import com.project.travelTracer.global.common.CommonDetailResponse;
 import com.project.travelTracer.global.common.CommonResponse;
 import com.project.travelTracer.member.dto.*;
+import com.project.travelTracer.member.service.EmailService;
 import com.project.travelTracer.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
 
     //회원가입
     @PostMapping("/signUp")
@@ -82,7 +84,6 @@ public class MemberController {
     @PostMapping ("/findId")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CommonResponse> findId(@Valid @RequestBody FindIdDto findIdDto) throws Exception {
-        log.info("실행되나?");
         String checkEmail = findIdDto.getUserEmail();
         String checkName = findIdDto.getUserName();
         String id = memberService.findIdByEmail(checkEmail, checkName);
@@ -90,5 +91,20 @@ public class MemberController {
             return ResponseEntity.ok(new CommonResponse(200, "실패"));
         }
         return ResponseEntity.ok(new CommonResponse(200, id));
+    }
+
+    @Transactional
+    @PostMapping("/findPw")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<CommonResponse> findPw(@Valid @RequestBody FindPasswordDto findPasswordDto) throws Exception {
+        log.info("제대로 요청은 받음");
+        if(memberService.userCheck(findPasswordDto.getUserId(), findPasswordDto.getUserEmail(), findPasswordDto.getUserName())) {
+            EmailDto emailDto = emailService.createMailAndChangePassword(findPasswordDto);
+            emailService.emailSend(emailDto);
+            return ResponseEntity.ok(new CommonResponse(200, "성공"));
+        }
+        return ResponseEntity.ok(new CommonResponse(200, "실패"));
+
+
     }
 }

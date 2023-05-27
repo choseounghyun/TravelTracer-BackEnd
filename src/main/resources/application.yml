@@ -18,7 +18,7 @@ spring:
     open-in-view: false
     show-sql : true
     hibernate:
-      ddl-auto : update
+      ddl-auto : create
 
   profiles:
     include: jwt
@@ -51,4 +51,5 @@ spring:
             ssl :
               #trust : smtp.naver.com
               enable : true
+    protocol: smtps
 

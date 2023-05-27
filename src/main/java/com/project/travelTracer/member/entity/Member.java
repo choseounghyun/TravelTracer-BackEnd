@@ -34,7 +34,7 @@ public class Member extends BaseTimeEntity {
     private Integer age; //나이
 
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userEmail;//이메일
 
     @Enumerated(EnumType.STRING)
@@ -87,6 +87,10 @@ public class Member extends BaseTimeEntity {
 
     public void updateAge(int age){
         this.age = age;
+    }
+
+    public void updateEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public void updatePassword(PasswordEncoder passwordEncoder, String userPassword) {

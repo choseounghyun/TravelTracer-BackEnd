@@ -1,10 +1,8 @@
 package com.project.travelTracer.member.service;
 
-import com.project.travelTracer.member.dto.FindIdDto;
 import com.project.travelTracer.member.dto.MemberInfoDto;
 import com.project.travelTracer.member.dto.MemberSignUpDto;
 import com.project.travelTracer.member.dto.MemberUpdateDto;
-import org.springframework.stereotype.Service;
 
 
 public interface MemberService {
@@ -28,4 +26,6 @@ public interface MemberService {
     boolean checkIdDuplicate(String userId) throws Exception;
 
     String findIdByEmail(String userEmail, String checkUserName) throws Exception;
+
+    boolean userCheck(String userId, String userEmail, String userName) throws Exception;
 }

@@ -50,6 +50,7 @@ public class MemberControllerTest {
     private String password = "password1234@";
     private String name = "LeeYC";
     private Integer age = 29;
+    private String email = "dldpcks34@naver.com";
 
     private void clear(){
         em.flush();
@@ -89,7 +90,7 @@ public class MemberControllerTest {
     @Test
     public void join() throws Exception {
         //given
-        String signUpData = objectMapper.writeValueAsString(new MemberSignUpDto(userId, password, name, age));
+        String signUpData = objectMapper.writeValueAsString(new MemberSignUpDto(userId, password, name, email, age));
 
         //when
         signUp(signUpData);

@@ -1,7 +1,6 @@
 package com.project.travelTracer.member.service;
 
 import com.project.travelTracer.global.util.SecurityUtil;
-import com.project.travelTracer.member.dto.FindIdDto;
 import com.project.travelTracer.member.dto.MemberInfoDto;
 import com.project.travelTracer.member.dto.MemberSignUpDto;
 import com.project.travelTracer.member.dto.MemberUpdateDto;
@@ -47,6 +46,7 @@ public class MemberServiceImpl implements MemberService
 
         memberUpdateDto.getAge().ifPresent(member::updateAge);
         memberUpdateDto.getUserName().ifPresent(member::updateName);
+        memberUpdateDto.getUserEmail().ifPresent(member::updateEmail);
     }
 
     @Override
@@ -101,6 +101,19 @@ public class MemberServiceImpl implements MemberService
             return null;
         }
         return null;
+    }
+
+    @Override
+    public boolean userCheck(String userId, String userEmail, String userName) throws Exception {
+        Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
+        Member member = null;
+        if (optionalMember.isPresent()) {
+            member = optionalMember.get();
+            if(member.getUserId().equals(userId) && member.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

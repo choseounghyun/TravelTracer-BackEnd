@@ -47,7 +47,7 @@ public class MemberServiceTest {
     }
 
     private MemberSignUpDto makeMemberSignUpDto() {
-        return new MemberSignUpDto("dldpcks11", PASSWORD, "lee", 29);
+        return new MemberSignUpDto("dldpcks11", PASSWORD, "lee", "dldpcks34@naver.com",29);
     }
 
     private MemberSignUpDto setMember() throws Exception {
@@ -103,10 +103,10 @@ public class MemberServiceTest {
 
     @Test
     public void none_insert() throws Exception {
-        MemberSignUpDto memberSignUpDto1 = new MemberSignUpDto("dldpcks11", PASSWORD, "lee", null);
-        MemberSignUpDto memberSignUpDto2 = new MemberSignUpDto("dldpcks11", PASSWORD, null, 29);
-        MemberSignUpDto memberSignUpDto3 = new MemberSignUpDto("dldpcks11", null, "lee", 29);
-        MemberSignUpDto memberSignUpDto4 = new MemberSignUpDto(null, PASSWORD, "lee", 29);
+        MemberSignUpDto memberSignUpDto1 = new MemberSignUpDto("dldpcks11", PASSWORD, "lee", null, null);
+        MemberSignUpDto memberSignUpDto2 = new MemberSignUpDto("dldpcks11", PASSWORD, null,null, 29);
+        MemberSignUpDto memberSignUpDto3 = new MemberSignUpDto("dldpcks11", null, "lee", null,null);
+        MemberSignUpDto memberSignUpDto4 = new MemberSignUpDto(null, PASSWORD, "lee",null, 29);
 
         assertThrows(Exception.class, () -> memberService.signUp(memberSignUpDto1));
 
@@ -141,7 +141,8 @@ public class MemberServiceTest {
         //when
         Integer updateAge = 33;
         String updateName = "변경할래용";
-        memberService.update(new MemberUpdateDto(Optional.of(updateName), Optional.of(updateAge)));
+        String updateEmail = "dldp@naver.com";
+        memberService.update(new MemberUpdateDto(Optional.of(updateName), Optional.of(updateAge), Optional.of(updateEmail)));
         clear();
 
         //then
