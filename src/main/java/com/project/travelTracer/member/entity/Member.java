@@ -1,6 +1,6 @@
 package com.project.travelTracer.member.entity;
 
-import com.project.travelTracer.Comment.entity.Comment;
+import com.project.travelTracer.comment.entity.Comment;
 import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.Post.entity.Post;
 import lombok.*;
@@ -62,8 +62,6 @@ public class Member extends BaseTimeEntity {
         //comment의 writer 설정은 comment에서 함
         commentList.add(comment);
     }
-
-
 
 
 

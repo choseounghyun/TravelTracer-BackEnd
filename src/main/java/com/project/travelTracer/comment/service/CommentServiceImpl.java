@@ -1,7 +1,7 @@
-package com.project.travelTracer.Comment.service;
+package com.project.travelTracer.comment.service;
 
-import com.project.travelTracer.Comment.entity.Comment;
-import com.project.travelTracer.Comment.repository.CommentRepository;
+import com.project.travelTracer.comment.entity.Comment;
+import com.project.travelTracer.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +39,6 @@ public class CommentServiceImpl implements  CommentService{
         List<Comment> removableCommentList = comment.findRemovableList();
         removableCommentList.forEach(removableComment -> commentRepository.delete(removableComment));
     }
+
 
 }

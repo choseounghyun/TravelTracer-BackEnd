@@ -1,6 +1,6 @@
-package com.project.travelTracer.Comment.service;
+package com.project.travelTracer.comment.service;
 
-import com.project.travelTracer.Comment.entity.Comment;
+import com.project.travelTracer.comment.entity.Comment;
 
 import java.util.List;
 

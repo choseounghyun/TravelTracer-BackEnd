@@ -1,4 +1,4 @@
-package com.project.travelTracer.Comment.entity;
+package com.project.travelTracer.comment.entity;
 
 import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.global.time.BaseTimeEntity;
