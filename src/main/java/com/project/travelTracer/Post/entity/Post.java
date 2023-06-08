@@ -72,4 +72,7 @@ public class Post extends BaseTimeEntity {
         this.filePath = filePath;
     }
 
+    public void setCheckpoint(CheckPoint checkpoint) {
+        this.checkpoint = checkpoint;
+    }
 }

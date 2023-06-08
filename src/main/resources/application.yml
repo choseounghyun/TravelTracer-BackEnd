@@ -52,5 +52,6 @@ spring:
               #trust : smtp.naver.com
               enable : true
     protocol: smtps
-  file :
-    dir: /Users/yechan/files
+
+file:
+  dir: /Users/yechan/files/

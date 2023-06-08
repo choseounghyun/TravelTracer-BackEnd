@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService{
 
-    @Value("${file.dir")
+    @Value("${file.dir}")
     private String fileDir;
 
     @Override

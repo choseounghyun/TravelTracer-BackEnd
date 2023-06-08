@@ -43,7 +43,7 @@ class PostServiceImplTest {
     @Autowired
     private MemberService memberService;
 
-    private static final String userId = "dldpcks34";
+    private static final String userId = "dldpcks345";
     private static final String userPassword = "3251840aa!";
 
     private void clear() {
@@ -145,7 +145,7 @@ class PostServiceImplTest {
     }
 
     @Test
-    public void updatePosthHavingPicture() throws Exception {
+    public void updatePostHavingPicture() throws Exception {
         String title = "제목";
         String content = "내용";
         PostSaveDto postSaveDto = new PostSaveDto(title,content, Optional.empty());
@@ -163,5 +163,27 @@ class PostServiceImplTest {
         assertThat(post.getFilePath()).isNotNull();
 
         deleteFile(post.getFilePath());
+    }
+
+    @Test
+    public void updatePostNonHavingPicture() throws Exception {
+        String title= "제목";
+        String content = "내용";
+
+        PostSaveDto postSaveDto = new PostSaveDto(title, content, Optional.ofNullable(getMockUploadFile()));
+        postService.save(postSaveDto);
+
+        Post findPost = em.createQuery("select p from Post p", Post.class).getSingleResult();
+        assertThat(findPost.getFilePath()).isNotNull();
+        clear();
+
+        PostUpdateDto postUpdateDto = new PostUpdateDto(Optional.ofNullable("바꾼 제목"), Optional.ofNullable("바꾼내용"), Optional.empty());
+        postService.update(findPost.getId(), postUpdateDto);
+
+        findPost = em.find(Post.class, findPost.getId());
+        assertThat(findPost.getContent()).isEqualTo("바꾼내용");
+        assertThat(findPost.getWriter().getUserId()).isEqualTo(userId);
+        assertThat(findPost.getFilePath()).isNull();
+
     }
 }
