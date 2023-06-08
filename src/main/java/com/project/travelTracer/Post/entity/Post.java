@@ -1,6 +1,7 @@
 package com.project.travelTracer.Post.entity;
 
 import com.project.travelTracer.comment.entity.Comment;
+import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Post {
+public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -27,6 +28,10 @@ public class Post {
 
     @Column(length = 40, nullable = false)
     private String title;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "checkpoint_id")
+    private CheckPoint checkpoint;
 
     @Lob
     @Column(nullable = false)
