@@ -86,6 +86,7 @@ public class MemberController {
     public ResponseEntity<CommonResponse> findId(@Valid @RequestBody FindIdDto findIdDto) throws Exception {
         String checkEmail = findIdDto.getUserEmail();
         String checkName = findIdDto.getUserName();
+        log.info("제대로 요청은 받음");
         String id = memberService.findIdByEmail(checkEmail, checkName);
         if(id==null) {
             return ResponseEntity.ok(new CommonResponse(200, "실패"));

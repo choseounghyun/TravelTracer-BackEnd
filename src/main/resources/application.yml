@@ -11,16 +11,14 @@ spring:
     password: 3251840aa!
     thymeleaf:
       cache: false
-    hikari:
-      driver-class-name:
 
-  # spring data jpa 설정
+# spring data jpa 설정
   jpa :
     database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
     show-sql : true
     hibernate:
-      ddl-auto : create
+      ddl-auto : update
 
   profiles:
     include: jwt
@@ -54,7 +52,5 @@ spring:
               #trust : smtp.naver.com
               enable : true
     protocol: smtps
-
-
   file :
-    dir : /Users/yechan/files
+    dir: /Users/yechan/files

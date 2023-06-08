@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PostSaveDto {
 
     @NotBlank(message = "제목을 입력해주세요")
