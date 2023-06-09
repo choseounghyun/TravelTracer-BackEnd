@@ -40,6 +40,8 @@ public class CommentServiceImpl implements  CommentService{
 
     @Override
     public void saveRecomment(Long postId, Long parentId, CommentSaveDto commentSaveDto) {
+        Comment comment = commentSaveDto.toEntity();
+
 
     }
 
