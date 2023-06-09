@@ -1,16 +1,37 @@
 package com.project.travelTracer.comment.entity;
 
+import com.project.travelTracer.Post.dto.PostSaveDto;
+import com.project.travelTracer.Post.entity.Post;
+import com.project.travelTracer.Post.exception.PostException;
+import com.project.travelTracer.Post.exception.PostExceptionType;
+import com.project.travelTracer.Post.repository.PostRepository;
+import com.project.travelTracer.comment.dto.CommentSaveDto;
 import com.project.travelTracer.comment.repository.CommentRepository;
 import com.project.travelTracer.comment.service.CommentService;
+import com.project.travelTracer.member.dto.MemberSignUpDto;
+import com.project.travelTracer.member.entity.Role;
+import com.project.travelTracer.member.repository.MemberRepository;
+import com.project.travelTracer.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.LongStream;
+
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -24,6 +45,15 @@ class CommentTest {
     CommentRepository commentRepository;
 
     @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
     EntityManager em;
 
     private void clear() {
@@ -31,51 +61,111 @@ class CommentTest {
         em.clear();
     }
 
-    private Long saveComment() {
-        Comment comment = Comment.builder().content("댓글").build();
-        Long id = commentRepository.save(comment).getId();
+    @BeforeEach
+    private void signUpAndSetAuthentication() throws Exception {
+        memberService.signUp(new MemberSignUpDto("USER1", "3251840aa!", "lee", "dldpcks34@nate.com", 29));
+        SecurityContext emptyContext = SecurityContextHolder.createEmptyContext();
+        emptyContext.setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        User.builder()
+                                .username("USER1")
+                                .password("3251840aa!")
+                                .roles(Role.USER.toString())
+                                .build(),
+                        null)
+        );
+        SecurityContextHolder.setContext(emptyContext);
         clear();
-        return id;
+    }
+
+    private void anotherSignUpAndSetAuthentication() throws Exception {
+        memberService.signUp(new MemberSignUpDto("USER2","325184dd!","name","nickName",22));
+        SecurityContext emptyContext = SecurityContextHolder.createEmptyContext();
+        emptyContext.setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        User.builder()
+                                .username("USER2")
+                                .password("325184dd!")
+                                .roles(Role.USER.toString())
+                                .build(),
+                        null)
+        );
+        SecurityContextHolder.setContext(emptyContext);
+        clear();
+    }
+
+    private Long savePost() {
+        String title = "제목";
+        String content = "내용";
+
+        PostSaveDto postSaveDto = new PostSaveDto(title, content, Optional.empty());
+        Post save = postRepository.save(postSaveDto.toEntity());
+        clear();
+        return save.getId();
+    }
+
+    private Long saveComment() {
+        CommentSaveDto commentSaveDto = new CommentSaveDto("댓글");
+        commentService.save(savePost(), commentSaveDto);
+        log.info(String.valueOf(savePost()));
+        clear();
+
+        List<Comment> resultList = em.createQuery("select c from Comment c order by c.createdDate desc", Comment.class).getResultList();
+        return resultList.get(0).getId();
     }
 
     private Long saveRecomment(Long parentId) {
-        Comment parent = commentRepository.findById(parentId).orElse(null);
-        Comment comment = Comment.builder().content("댓글").parent(parent).build();
-
-        Long id = commentRepository.save(comment).getId();
+        CommentSaveDto commentSaveDto = new CommentSaveDto("대댓글");
+        commentService.saveRecomment(savePost(), parentId, commentSaveDto);
         clear();
-        return id;
+
+        List<Comment> resultList = em.createQuery("select c from Comment c order by c.createdDate desc", Comment.class).getResultList();
+        return resultList.get(0).getId();
+
     }
 
     @Test
-    public void deleteParentCommentHavingChild() throws  Exception {
-        Long commendId = saveComment();
-        saveRecomment(commendId);
-        saveRecomment(commendId);
-        saveRecomment(commendId);
-        saveRecomment(commendId);
+    public void commentSave_Success() throws  Exception {
+        Long postId = savePost();
+        CommentSaveDto commentSaveDto = new CommentSaveDto("댓글");
 
-        assertThat(commentService.findById(commendId).getChildList().size()).isEqualTo(4);
-
-        commentService.remove(commendId);
+        commentService.save(postId, commentSaveDto);
         clear();
 
-        Comment findCommentId = commentService.findById(commendId);
-        assertThat(findCommentId).isNotNull();
-        assertThat(findCommentId.isRemoved()).isTrue();
-        assertThat(findCommentId.getChildList().size()).isEqualTo(4);
-        log.info(findCommentId.getContent());
+        List<Comment> resultList = em.createQuery("select c from Comment c order by c.createdDate desc", Comment.class).getResultList();
+        assertThat(resultList.size()).isEqualTo(1);
     }
 
-    //댓글을 삭제 할 때 대댓글이 없음 바로 DB에서 삭제
     @Test
-    public void deleteParentComment() throws Exception {
-        Long commentId = saveComment();
+    public void recommentSave_success() throws Exception {
+        Long postId = savePost();
+        Long parentId = saveComment();
+        CommentSaveDto commentSaveDto = new CommentSaveDto("대댓글");
 
-        commentService.remove(commentId);
+        commentService.saveRecomment(postId, parentId, commentSaveDto);
+        clear();
 
-        assertThat(commentService.findAll().size()).isSameAs(0);
+        List<Comment> resultList = em.createQuery("select c from Comment c order by c.createdDate desc", Comment.class).getResultList();
+        assertThat(resultList.size()).isEqualTo(2);
+    }
 
+    @Test
+    public void commentSave_fail() throws Exception {
+        Long postId = savePost();
+        CommentSaveDto commentSaveDto = new CommentSaveDto("댓글");
+
+        assertThat(assertThrows(PostException.class, () -> commentService.save(postId+1, commentSaveDto)));
+
+    }
+
+    @Test
+    public void recommentSave_fail() throws Exception {
+        Long postId = savePost();
+        Long parentId = saveComment();
+        CommentSaveDto commentSaveDto = new CommentSaveDto("댓글");
+
+        assertThat(assertThrows(PostException.class, () -> commentService.saveRecomment(postId+123, parentId, commentSaveDto))
+                .getExceptionType()).isEqualTo(PostExceptionType.POST_NOT_POUND);
     }
 
 

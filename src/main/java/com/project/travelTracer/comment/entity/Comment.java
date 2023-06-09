@@ -85,7 +85,7 @@ public class Comment extends BaseTimeEntity {
     public List<Comment> findRemovableList() {
         List<Comment> result = new ArrayList<>();
         Optional.ofNullable(this.parent).ifPresentOrElse(
-                parentComment -> {
+                parentComment -> { //댓글인지 대댓글인지 확인
                     if(parentComment.isRemoved() && parentComment.isAllChildRemoved()){
                         result.addAll(parentComment.getChildList());
                         result.add(parentComment);
