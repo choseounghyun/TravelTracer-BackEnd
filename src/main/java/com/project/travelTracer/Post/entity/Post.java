@@ -30,6 +30,9 @@ public class Post extends BaseTimeEntity {
     @Column(length = 40, nullable = false)
     private String title;
 
+    @Column(length = 100, nullable = false)
+    private String address;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "checkpoint_id")
     private CheckPoint checkpoint;
@@ -42,9 +45,10 @@ public class Post extends BaseTimeEntity {
     private String filePath;
 
     @Builder
-    public Post(String title, String content) {
+    public Post(String title, String content, String address) {
         this.title = title;
         this.content = content;
+        this.address = address;
     }
 
     //== 게시글을 삭제하면 달려있는 댓글 모두 삭제 ==//
@@ -72,6 +76,11 @@ public class Post extends BaseTimeEntity {
     public void updateFilePath(String filePath) {
         this.filePath = filePath;
     }
+
+    public void updateAddress(String address) {
+        this.address = address;
+    }
+
 
     public void setCheckpoint(CheckPoint checkpoint) {
         this.checkpoint = checkpoint;

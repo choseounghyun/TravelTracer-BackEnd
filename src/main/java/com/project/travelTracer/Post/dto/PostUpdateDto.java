@@ -16,6 +16,8 @@ public class PostUpdateDto {
 
     Optional<String> content;
 
+    Optional<String> address;
+
     Optional<MultipartFile> uploadFile;
 
 

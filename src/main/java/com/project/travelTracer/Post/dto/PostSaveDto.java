@@ -21,6 +21,9 @@ public class PostSaveDto {
     @NotBlank(message = "내용을 입력해주세요")
     String content;
 
+    @NotBlank(message = "주소를 입력해주세요")
+    String address;
+
     Optional<MultipartFile> uploadFile;
 
     public Post toEntity() {

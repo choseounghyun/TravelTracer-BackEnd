@@ -19,6 +19,8 @@ public class PostInfoDto {
 
     private String content; //내용
 
+    private String address;
+
     private String filePath; //업로드 파일 경로
 
     private MemberInfoDto writerDto; //작성자에 대한 정보
@@ -30,6 +32,7 @@ public class PostInfoDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.filePath = post.getFilePath();
+        this.address = post.getAddress();
 
         this.writerDto = new MemberInfoDto(post.getWriter());
 

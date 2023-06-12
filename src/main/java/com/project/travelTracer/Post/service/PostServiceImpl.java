@@ -51,6 +51,7 @@ public class PostServiceImpl implements PostService{
 
         postUpdateDto.getTitle().ifPresent(post::updateTitle);
         postUpdateDto.getContent().ifPresent(post::updateContent);
+        postUpdateDto.getAddress().ifPresent(post::updateAddress);
 
         if(post.getFilePath() != null) {
             fileService.delete(post.getFilePath());
