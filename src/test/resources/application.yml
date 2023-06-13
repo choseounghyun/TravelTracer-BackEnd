@@ -1,0 +1,70 @@
+# 서버 포트 설정
+server:
+  port: 8092
+
+#database 연동 설정
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://localhost:3306/TravelTracer?serverTimezone=Asia/Seoul
+    username: root
+    password: 3251840aa!
+    thymeleaf:
+      cache: false
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  # spring data jpa 설정
+  jpa :
+    database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql : true
+    hibernate:
+      ddl-auto : create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 500
+        format_sql: true
+
+  profiles:
+    include: jwt
+
+  logging:
+    level:
+      org:
+        apache:
+          coyote:
+            http11: debug
+
+        hibernate:
+          SQL: debug
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: dldpcks34
+    password: 31290aA!
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+            auth : true
+            connection-timeout : 5000
+            timeout : 5000
+            write timeout : 5000
+            ssl :
+              #trust : smtp.naver.com
+              enable : true
+    protocol: smtps
+
+file:
+  dir: /Users/yechan/files/

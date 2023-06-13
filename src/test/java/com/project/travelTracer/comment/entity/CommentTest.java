@@ -97,8 +97,10 @@ class CommentTest {
     private Long savePost() {
         String title = "제목";
         String content = "내용";
+        String address = "서울시";
 
-        PostSaveDto postSaveDto = new PostSaveDto(title, content, Optional.empty());
+
+        PostSaveDto postSaveDto = new PostSaveDto(title, content, address, Optional.empty());
         Post save = postRepository.save(postSaveDto.toEntity());
         clear();
         return save.getId();
