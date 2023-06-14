@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -18,7 +19,7 @@ public class PostUpdateDto {
 
     Optional<String> address;
 
-    Optional<MultipartFile> uploadFile;
+    List<MultipartFile> uploadFiles;
 
 
 }

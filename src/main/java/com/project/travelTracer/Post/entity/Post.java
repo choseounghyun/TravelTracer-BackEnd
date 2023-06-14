@@ -1,5 +1,6 @@
 package com.project.travelTracer.Post.entity;
 
+import com.project.travelTracer.Image.Entity.Image;
 import com.project.travelTracer.checkpoint.entity.CheckPoint;
 import com.project.travelTracer.comment.entity.Comment;
 import com.project.travelTracer.global.time.BaseTimeEntity;
@@ -41,8 +42,13 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = true)
-    private String filePath;
+
+    @OneToMany(
+            mappedBy = "post",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<Image> image = new ArrayList<>();
 
     @Builder
     public Post(String title, String content, String address) {
@@ -73,9 +79,6 @@ public class Post extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
     public void updateAddress(String address) {
         this.address = address;
@@ -84,5 +87,13 @@ public class Post extends BaseTimeEntity {
 
     public void setCheckpoint(CheckPoint checkpoint) {
         this.checkpoint = checkpoint;
+    }
+
+    public void addImage(Image image) {
+        this.image.add(image);
+
+        if(image.getPost()!=this) {
+            image.setPost(this);
+        }
     }
 }

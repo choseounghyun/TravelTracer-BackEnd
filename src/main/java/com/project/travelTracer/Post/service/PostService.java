@@ -8,12 +8,15 @@ import com.project.travelTracer.Post.dto.PostSaveDto;
 import com.project.travelTracer.Post.dto.PostUpdateDto;
 import com.project.travelTracer.global.file.exception.FileException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface PostService {
 
-    void save(PostSaveDto postSaveDto) throws FileException;
+    void save(PostSaveDto postSaveDto) throws Exception;
 
-    void update(Long id, PostUpdateDto postUpdateDto);
+    void update(Long id, PostUpdateDto postUpdateDto, List<MultipartFile> files) throws Exception;
 
     void delete(Long id);
 

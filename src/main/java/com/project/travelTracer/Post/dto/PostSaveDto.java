@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -24,7 +25,7 @@ public class PostSaveDto {
     @NotBlank(message = "주소를 입력해주세요")
     String address;
 
-    Optional<MultipartFile> uploadFile;
+    List<MultipartFile> files;
 
     public Post toEntity() {
         return Post.builder().title(title).content(content).build();

@@ -21,8 +21,6 @@ public class PostInfoDto {
 
     private String address;
 
-    private String filePath; //업로드 파일 경로
-
     private MemberInfoDto writerDto; //작성자에 대한 정보
 
     private List<CommentInfoDto> commentInfoDtoList = new ArrayList<>(); //댓글 정보들
@@ -31,7 +29,6 @@ public class PostInfoDto {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.filePath = post.getFilePath();
         this.address = post.getAddress();
 
         this.writerDto = new MemberInfoDto(post.getWriter());
