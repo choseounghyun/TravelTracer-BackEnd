@@ -21,4 +21,5 @@ public interface PostService {
 
     PostPagingDto getPostList(Pageable pageable, PostSearchCondition postSearchCondition);
 
+
 }

@@ -92,6 +92,6 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PostPagingDto getPostList(Pageable pageable, PostSearchCondition postSearchCondition) {
-        return null;
+        return new PostPagingDto(postRepository.search(postSearchCondition, pageable));
     }
 }

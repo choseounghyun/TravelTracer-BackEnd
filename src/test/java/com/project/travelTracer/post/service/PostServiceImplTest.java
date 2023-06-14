@@ -1,7 +1,9 @@
 package com.project.travelTracer.post.service;
 
 
+import com.project.travelTracer.Post.condition.PostSearchCondition;
 import com.project.travelTracer.Post.dto.PostInfoDto;
+import com.project.travelTracer.Post.dto.PostPagingDto;
 import com.project.travelTracer.Post.dto.PostSaveDto;
 import com.project.travelTracer.Post.dto.PostUpdateDto;
 import com.project.travelTracer.Post.entity.Post;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,6 +31,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.print.attribute.standard.PageRanges;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -270,4 +274,114 @@ class PostServiceImplTest {
         assertThat(postInfoDto.getCommentInfoDtoList().size()).isEqualTo(11);
         assertThat(recommentCount).isEqualTo(COMMENT_PER_RECOMMENT_COUNT * COMMENT_COUNT);
     }
+
+    @Test
+    public void post_search_noCondition() throws Exception {
+        //given
+        Member member1 = memberRepository.save(Member.builder().userId("dldpcks111").userPassword("325184ddd!").userName("USER1").userEmail("dldpcks34@nate.com").age(29).role(Role.USER).build());
+
+        final int POST_COUNT = 50;
+        for(int i=1; i<=POST_COUNT; i++) {
+            Post post = Post.builder().title("게시글" + i).content("내용" + i).address("서울시" + i).build();
+            post.confirmWriter(member1);
+            postRepository.save(post);
+        }
+        clear();
+
+        //when
+        final int PAGE = 0;
+        final int SIZE = 20;
+
+        PageRequest pageRequest = PageRequest.of(PAGE, SIZE);
+        PostSearchCondition postSearchCondition = new PostSearchCondition();
+
+        PostPagingDto postList = postService.getPostList(pageRequest, postSearchCondition);
+
+
+        //then
+        assertThat(postList.getTotalElementCount()).isEqualTo(POST_COUNT);
+        assertThat(postList.getTotalPageCount())
+                .isEqualTo((POST_COUNT % SIZE ==0) ? POST_COUNT/SIZE : POST_COUNT/SIZE+1);
+        assertThat(postList.getCurrentPageNum()).isEqualTo(PAGE);
+        assertThat(postList.getCurrentPageElementCount()).isEqualTo(SIZE);
+    }
+
+    @Test
+    public void post_search_titleCondition() throws Exception {
+
+        //given
+        Member member1 = memberRepository.save(Member.builder().userId("dldpcks111").userPassword("325184ddd!").userName("USER1").userEmail("dldpcks34@nate.com").age(29).role(Role.USER).build());
+
+        final int DEFAULT_POST_COUNT = 100;
+        for(int i = 1; i<=DEFAULT_POST_COUNT; i++ ){
+            Post post = Post.builder().title("게시글" + i).content("내용" + i).address("서울시" + i).build();
+            post.confirmWriter(member1);
+            postRepository.save(post);
+        }
+
+        final String SEARCH_TITLE_STR = "AAA";
+        final int COND_POST_COUNT = 100;
+        for(int i = 1; i<=COND_POST_COUNT; i++ ){
+            Post post = Post.builder().title(SEARCH_TITLE_STR+ i).content("내용"+i).address("서울시" + i).build();
+            post.confirmWriter(member1);
+            postRepository.save(post);
+        }
+        clear();
+
+        //when
+        final int PAGE = 2;
+        final int SIZE = 20;
+        PageRequest pageRequest = PageRequest.of(PAGE, SIZE);
+
+        PostSearchCondition postSearchCondition = new PostSearchCondition();
+        postSearchCondition.setTitle(SEARCH_TITLE_STR);
+
+        PostPagingDto postList = postService.getPostList(pageRequest, postSearchCondition);
+
+        assertThat(postList.getTotalElementCount()).isEqualTo(COND_POST_COUNT);
+        assertThat(postList.getTotalPageCount())
+                .isEqualTo((COND_POST_COUNT % SIZE == 0) ? COND_POST_COUNT/SIZE : COND_POST_COUNT/SIZE + 1);
+        assertThat(postList.getCurrentPageNum()).isEqualTo(PAGE);
+        assertThat(postList.getCurrentPageElementCount()).isEqualTo(SIZE);
+    }
+
+    @Test
+    public void post_search_contentCondition() throws Exception {
+
+        //given
+        Member member1 = memberRepository.save(Member.builder().userId("dldpcks111").userPassword("325184ddd!").userName("USER1").userEmail("dldpcks34@nate.com").age(29).role(Role.USER).build());
+
+        final int DEFAULT_POST_COUNT = 100;
+        for(int i = 1; i<=DEFAULT_POST_COUNT; i++ ){
+            Post post = Post.builder().title("게시글" + i).content("내용" + i).address("서울시" + i).build();
+            post.confirmWriter(member1);
+            postRepository.save(post);
+        }
+
+        final String SEARCH_CONTENT_STR = "AAA";
+        final int COND_POST_COUNT = 100;
+        for(int i = 1; i<=COND_POST_COUNT; i++ ){
+            Post post = Post.builder().title("타이틀" + i).content(SEARCH_CONTENT_STR + i).address("서울시" + i).build();
+            post.confirmWriter(member1);
+            postRepository.save(post);
+        }
+        clear();
+
+        final int PAGE = 2;
+        final int SIZE = 20;
+        PageRequest pageRequest = PageRequest.of(PAGE, SIZE);
+
+        PostSearchCondition postSearchCondition = new PostSearchCondition();
+        postSearchCondition.setContent(SEARCH_CONTENT_STR);
+
+        PostPagingDto postList = postService.getPostList(pageRequest, postSearchCondition);
+
+        assertThat(postList.getTotalElementCount()).isEqualTo(COND_POST_COUNT);
+        assertThat(postList.getTotalPageCount())
+                .isEqualTo((COND_POST_COUNT % SIZE == 0) ? COND_POST_COUNT/SIZE : COND_POST_COUNT/SIZE + 1);
+        assertThat(postList.getCurrentPageNum()).isEqualTo(PAGE);
+        assertThat(postList.getCurrentPageElementCount()).isEqualTo(SIZE);
+    }
+
+
 }
