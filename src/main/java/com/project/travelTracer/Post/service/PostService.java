@@ -6,6 +6,7 @@ import com.project.travelTracer.Post.dto.PostInfoDto;
 import com.project.travelTracer.Post.dto.PostPagingDto;
 import com.project.travelTracer.Post.dto.PostSaveDto;
 import com.project.travelTracer.Post.dto.PostUpdateDto;
+import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.global.file.exception.FileException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +21,10 @@ public interface PostService {
 
     void delete(Long id);
 
-    PostInfoDto getPostInfo(Long id);
+    PostInfoDto getPostInfo(Long id, List<Long> fileId);
+
+    List<Post> getAllPost();
 
     PostPagingDto getPostList(Pageable pageable, PostSearchCondition postSearchCondition);
-
 
 }

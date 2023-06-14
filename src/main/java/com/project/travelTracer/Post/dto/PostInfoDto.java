@@ -23,14 +23,16 @@ public class PostInfoDto {
 
     private MemberInfoDto writerDto; //작성자에 대한 정보
 
+    private List<Long> fileId;
+
     private List<CommentInfoDto> commentInfoDtoList = new ArrayList<>(); //댓글 정보들
 
-    public PostInfoDto(Post post) {
+    public PostInfoDto(Post post,List<Long> fileId) {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.address = post.getAddress();
-
+        this.fileId = fileId;
         this.writerDto = new MemberInfoDto(post.getWriter());
 
         /**

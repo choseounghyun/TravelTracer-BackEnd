@@ -95,10 +95,17 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostInfoDto getPostInfo(Long id) {
-        return new PostInfoDto(postRepository.findWithWriterById(id)
-                .orElseThrow(()-> new PostException(PostExceptionType.POST_NOT_POUND)));
+    public PostInfoDto getPostInfo(Long id, List<Long> fileId) {
+        Post post = postRepository.findWithWriterById(id)
+                .orElseThrow(() -> new PostException(PostExceptionType.POST_NOT_POUND));
+        return new PostInfoDto(post, fileId);
     }
+
+    @Override
+    public List<Post> getAllPost() {
+        return postRepository.findAllDesc();
+    }
+
 
     @Override
     public PostPagingDto getPostList(Pageable pageable, PostSearchCondition postSearchCondition) {

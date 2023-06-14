@@ -4,10 +4,13 @@ import com.project.travelTracer.Image.Entity.Image;
 import com.project.travelTracer.Image.Service.ImageService;
 import com.project.travelTracer.Image.dto.ImageDto;
 import com.project.travelTracer.Image.dto.ImageResponseDto;
+import com.project.travelTracer.Post.dto.PostInfoListDto;
 import com.project.travelTracer.Post.dto.PostSaveDto;
 import com.project.travelTracer.Post.dto.PostUpdateDto;
+import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.Post.service.PostService;
 import com.project.travelTracer.global.common.CommonResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +88,19 @@ public class PostController {
             }
         }
         postService.update(postId, postUpdateDto, addImageList);
+    }
+
+    //전체 게시물 조회
+    @GetMapping("/post")
+    public List<PostInfoListDto> getPostAll() {
+        List<Post> postList = postService.getAllPost();
+        List<PostInfoListDto> postInfoListDtos = new ArrayList<>();
+
+        for(Post post : postList) {
+            PostInfoListDto postInfoListDto = new PostInfoListDto(post);
+            postInfoListDtos.add(postInfoListDto);
+        }
+        return postInfoListDtos;
     }
 
 
