@@ -8,11 +8,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url : jdbc:mysql://localhost:3306/TravelTracer?serverTimezone=Asia/Seoul
     username: root
-    password: 3251840aa!
+    password: 1234
     thymeleaf:
       cache: false
     hikari:
-      driver-class-name:
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
   # spring data jpa 설정
   jpa :
