@@ -2,6 +2,7 @@ package com.project.travelTracer.Post.controller;
 
 import com.project.travelTracer.Image.Service.ImageService;
 import com.project.travelTracer.Image.dto.ImageResponseDto;
+import com.project.travelTracer.Post.condition.PostSearchCondition;
 import com.project.travelTracer.Post.dto.PostInfoDto;
 import com.project.travelTracer.Post.dto.PostInfoListDto;
 import com.project.travelTracer.Post.dto.PostSaveDto;
@@ -10,6 +11,7 @@ import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.Post.service.PostService;
 import com.project.travelTracer.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -99,7 +101,7 @@ public class PostController {
         return postInfoListDtos;
     }
 
-    @GetMapping("/post/{postId")
+    @GetMapping("/post/{postId}")
     public PostInfoDto getInfo(@PathVariable("postId") Long postId){
         List<ImageResponseDto> imageResponseDtoList = imageService.findAllByPost(postId);
 
@@ -111,5 +113,8 @@ public class PostController {
     }
 
 
-
+    @GetMapping("/post/search")
+    public ResponseEntity search(Pageable pageable, @ModelAttribute PostSearchCondition postSearchCondition) {
+        return ResponseEntity.ok(postService.getPostList(pageable, postSearchCondition));
+    }
 }

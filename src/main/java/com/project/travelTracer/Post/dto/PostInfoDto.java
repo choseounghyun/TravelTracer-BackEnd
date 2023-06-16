@@ -27,7 +27,7 @@ public class PostInfoDto {
 
     private List<CommentInfoDto> commentInfoDtoList = new ArrayList<>(); //댓글 정보들
 
-    public PostInfoDto(Post post,List<Long> imageId) {
+    public PostInfoDto(Post post, List<Long> imageId) {
         this.postId = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();

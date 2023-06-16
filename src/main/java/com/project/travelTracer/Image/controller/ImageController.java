@@ -52,7 +52,7 @@ public class ImageController {
                 produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) throws IOException {
         ImageDto imageDto = imageService.findById(id);
-        String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+        String absolutePath = new File("").getAbsolutePath() + File.separator;
         String path = imageDto.getFilePath();
 
         InputStream imageStream = new FileInputStream(absolutePath + path);

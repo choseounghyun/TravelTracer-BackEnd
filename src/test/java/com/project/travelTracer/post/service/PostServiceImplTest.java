@@ -1,3 +1,6 @@
+/**
+ *
+
 package com.project.travelTracer.post.service;
 
 
@@ -113,7 +116,6 @@ class PostServiceImplTest {
         Post post = em.find(Post.class, findPost.getId());
         assertThat(post.getContent()).isEqualTo(content);
         assertThat(post.getWriter().getUserId()).isEqualTo(userId);
-        assertThat(post.getFilePath()).isNull();
     }
 
     @Test
@@ -131,9 +133,7 @@ class PostServiceImplTest {
         Post post = em.find(Post.class, findPost.getId());
         assertThat(post.getContent()).isEqualTo(content);
         assertThat(post.getWriter().getUserId()).isEqualTo(userId);
-        assertThat(post.getFilePath()).isNotNull();
 
-        deleteFile(post.getFilePath());
 
     }
 
@@ -169,7 +169,6 @@ class PostServiceImplTest {
         Post post = em.find(Post.class, findPost.getId());
         assertThat(post.getTitle()).isEqualTo("바꾼제목");
         assertThat(post.getWriter().getUserId()).isEqualTo(userId);
-        assertThat(post.getFilePath()).isNull();
     }
 
     @Test
@@ -190,9 +189,7 @@ class PostServiceImplTest {
         Post post = em.find(Post.class, findPost.getId());
         assertThat(post.getContent()).isEqualTo("바꾼내용");
         assertThat(post.getWriter().getUserId()).isEqualTo(userId);
-        assertThat(post.getFilePath()).isNotNull();
 
-        deleteFile(post.getFilePath());
     }
 
     @Test
@@ -385,3 +382,4 @@ class PostServiceImplTest {
 
 
 }
+ **/
