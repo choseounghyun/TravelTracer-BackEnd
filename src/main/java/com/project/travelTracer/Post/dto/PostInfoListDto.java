@@ -8,11 +8,13 @@ public class PostInfoListDto {
 
     private Long id;
     private String title;
+    private String address;
     private Long thumnailId;
 
     public PostInfoListDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
+        this.address = post.getAddress();
 
         if(!post.getImage().isEmpty()) {
             this.thumnailId = post.getImage().get(0).getId();
