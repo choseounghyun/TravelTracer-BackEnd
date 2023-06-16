@@ -1,5 +1,6 @@
 package com.project.travelTracer.Post.dto;
 
+import com.project.travelTracer.Post.entity.Category;
 import com.project.travelTracer.Post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,9 +26,12 @@ public class PostSaveDto {
     @NotBlank(message = "주소를 입력해주세요")
     String address;
 
+    @NotBlank(message = "카테고리를 설정하여주세요")
+    Category category;
+
     List<MultipartFile> files;
 
     public Post toEntity() {
-        return Post.builder().title(title).content(content).build();
+        return Post.builder().title(title).content(content).category(category).build();
     }
 }

@@ -1,5 +1,6 @@
 package com.project.travelTracer.Post.dto;
 
+import com.project.travelTracer.Post.entity.Category;
 import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.comment.dto.CommentInfoDto;
 import com.project.travelTracer.comment.dto.ReCommentInfoDto;
@@ -19,7 +20,9 @@ public class PostInfoDto {
 
     private String content; //내용
 
-    private String address;
+    private String address; //위치
+
+    private Category category;
 
     private MemberInfoDto writerDto; //작성자에 대한 정보
 
@@ -32,6 +35,7 @@ public class PostInfoDto {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.address = post.getAddress();
+        this.category = post.getCategory();
         this.imageId = imageId;
         this.writerDto = new MemberInfoDto(post.getWriter());
 

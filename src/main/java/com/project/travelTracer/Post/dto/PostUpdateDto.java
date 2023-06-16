@@ -1,5 +1,6 @@
 package com.project.travelTracer.Post.dto;
 
+import com.project.travelTracer.Post.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class PostUpdateDto {
     Optional<String> content;
 
     Optional<String> address;
+
+    Optional<Category> category;
 
     List<MultipartFile> uploadFiles;
 

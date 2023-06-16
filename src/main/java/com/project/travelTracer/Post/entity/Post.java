@@ -42,6 +42,8 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @OneToMany(
             mappedBy = "post",
@@ -51,10 +53,11 @@ public class Post extends BaseTimeEntity {
     private List<Image> image = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, String address) {
+    public Post(String title, String content, String address, Category category) {
         this.title = title;
         this.content = content;
         this.address = address;
+        this.category = category;
     }
 
     //== 게시글을 삭제하면 달려있는 댓글 모두 삭제 ==//
@@ -82,6 +85,10 @@ public class Post extends BaseTimeEntity {
 
     public void updateAddress(String address) {
         this.address = address;
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
     }
 
 
