@@ -16,17 +16,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-@RestController
-@RequiredArgsConstructor
+@RestController  //rest 컨트롤러: HTTP 요청을 처리하고 JSON형식으로 응답 반환
+@RequiredArgsConstructor //final 선언된 필드 기반의 생성자를 자동 생성
 @Slf4j
 public class MemberController {
 
     private final MemberService memberService;
     private final EmailService emailService;
 
-    //회원가입
+    //회원가입 처리
     @PostMapping("/signUp")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)  //HTTP 응답 상태 코드 OK(200)으로 설정
+    //@Vaild 데이터 검증 MemberSignUpDto 객체의 유효성 검사
     public ResponseEntity<CommonResponse> signUp(@Valid @RequestBody MemberSignUpDto memberSignUpDto, BindingResult bindingResult) throws  Exception {
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
