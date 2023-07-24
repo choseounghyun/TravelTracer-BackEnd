@@ -30,6 +30,7 @@ public class Image extends BaseTimeEntity {
     @Column
     private String filePath; //파일 경로
 
+    @Column
     private Long fileSize;
 
     @Builder
