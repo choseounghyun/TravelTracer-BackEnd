@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-//JWT를 사용하여 인증 처리하는 커스텀 필터 
+//JWT를 사용하여 인증 처리하는 커스텀 필터입니다.
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
