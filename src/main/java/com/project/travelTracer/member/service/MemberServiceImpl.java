@@ -20,17 +20,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class MemberServiceImpl implements MemberService
+public class MemberServiceImpl implements MemberService //MemberSericie 인터페이스 구현
 {
-
+    //데이터베이스 작업과 비밀번호 암호화 수행
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    //회원 가입 처리
     @Override
     public void signUp(MemberSignUpDto memberSignUpDto) throws Exception {
-        Member member = memberSignUpDto.toEntity();
-        member.addUserAuthority();
-        member.encodePassword(passwordEncoder);
+        Member member = memberSignUpDto.toEntity();     //엔티티 변환
+        member.addUserAuthority();                      //권한 추가
+        member.encodePassword(passwordEncoder);         //비밀번호 암호화 후 저장
 
         if(memberRepository.findByUserId(memberSignUpDto.getUserId()).isPresent()){
             throw new MemberException(MemberExceptionType.ALREADY_EXIST_USERID);
@@ -40,6 +41,7 @@ public class MemberServiceImpl implements MemberService
         log.info("save 메소드 실행");
     }
 
+    //회원 정보 업데이트 처리
     @Override
     public void update(MemberUpdateDto memberUpdateDto) throws Exception {
         Member member = memberRepository.findByUserId(SecurityUtil.getLoginUserId()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
@@ -49,6 +51,7 @@ public class MemberServiceImpl implements MemberService
         memberUpdateDto.getUserEmail().ifPresent(member::updateEmail);
     }
 
+    //비밀번호 확인
     @Override
     public void updatePassword(String checkPassword, String toBePassword) throws Exception {
         Member member = memberRepository.findByUserId(SecurityUtil.getLoginUserId()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
@@ -60,6 +63,7 @@ public class MemberServiceImpl implements MemberService
         member.updatePassword(passwordEncoder, toBePassword);
     }
 
+    //회원 탈퇴 처리
     @Override
     public void withdraw(String checkPassword) throws Exception {
         Member member = memberRepository.findByUserId(SecurityUtil.getLoginUserId()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
@@ -71,23 +75,27 @@ public class MemberServiceImpl implements MemberService
         memberRepository.delete(member);
     }
 
+    // 지정된 회원 정보 조회 -> MemberInfoDto로 반환
     @Override
     public MemberInfoDto getInfo(Long id) throws Exception {
         Member findMember = memberRepository.findById(id).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
         return new MemberInfoDto(findMember);
     }
 
+    // 현재 로드인된 사용자 정보 조회
     @Override
     public MemberInfoDto getMyInfo() throws Exception {
         Member findMember = memberRepository.findByUserId(SecurityUtil.getLoginUserId()).orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
         return new MemberInfoDto(findMember);
     }
 
+    //입력받은 사용자 아이디 유무 확인
     @Override
     public boolean checkIdDuplicate(String userId) throws Exception {
         return memberRepository.existsByUserId(userId);
     }
 
+    //입력받은 이메일과 사용자 이름 기반으로 아이디 찾기
     @Override
     public String findIdByEmail(String userEmail, String checkUserName) throws Exception {
         log.info("서비스의 메소드 실행");
@@ -103,6 +111,7 @@ public class MemberServiceImpl implements MemberService
         return null;
     }
 
+    //사용자 아이디, 이메일, 사용자 이름 일치 확인
     @Override
     public boolean userCheck(String userId, String userEmail, String userName) throws Exception {
         Optional<Member> optionalMember = memberRepository.findByUserEmail(userEmail);
