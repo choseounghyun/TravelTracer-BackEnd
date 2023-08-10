@@ -10,16 +10,18 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "member")
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//db로 저장하는 부분
+@Table(name = "member") // 엔티티와 매핑될 데이터베이스 테이블
+@Getter //메스드 자동 생성
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  //파라미터 없는 생성자를 자동으로 생성, protected 접근 제어를 가지므로 외부에서 직접 생성할 수 없음
 @Entity
-@AllArgsConstructor
-@Builder
+@AllArgsConstructor  //모든 필드를 인자로 받는 생성자를 자동으로 생성
+@Builder  //빌더 패턴을 적용한 빌더 클래스를 자동으로 생성
 public class Member extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Id // 기본 키 필드임을 표시
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 값을 자동 생성
+    @Column(name="member_id") // 엔티티 필드와 DB 테이블 컬럼 매핑
     private Long id; //primary key
 
     @Column(nullable = false, length = 30, unique = true)
