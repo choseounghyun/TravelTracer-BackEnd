@@ -72,6 +72,7 @@ public class MemberController {
     }
 
     //회원아이디중복확인
+    //안스 get이랑 인텔리제이 getMappipng 코드 같이 해야한다.
     @GetMapping("/check/{userId}")
     public ResponseEntity<CommonResponse> checkIdDuplicate(@Valid @PathVariable("userId") String userId) throws Exception {
         Boolean check = memberService.checkIdDuplicate(userId);

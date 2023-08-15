@@ -27,7 +27,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	//Querydsl
+	implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
 	annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', version: '5.0.0'
 	implementation 'commons-io:commons-io:2.6'
 	implementation 'com.auth0:java-jwt:4.3.0'
@@ -52,14 +55,15 @@ querydsl {
 sourceSets {
 	main.java.srcDir querydslDir
 }
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
 }
 
 
