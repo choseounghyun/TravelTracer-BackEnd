@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class checkPointDto {
+public class CheckPointDto {
     int locationId;
 
     String locationName;
@@ -28,12 +28,12 @@ public class checkPointDto {
     public void CheckPointDto(){
 
     }
-    public checkpoint toEntity() {
-        return Member.builder().userId(userId)
-                .userPassword(userPassword)
-                .userEmail(userEmail)
-                .userName(userName)
-                .age(age)
+    public Checkpoint toEntity() {
+        return Checkpoint.bulider().locationId(locationId)
+                .locationName(locationName)
+                .longitude(longitude)
+                .latitude(latitude)
+                .createtime(createtime)
                 .build();
     }
 }

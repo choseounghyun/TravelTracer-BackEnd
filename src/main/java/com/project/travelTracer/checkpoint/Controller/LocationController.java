@@ -1,6 +1,6 @@
 package com.project.travelTracer.checkpoint.Controller;
 
-import com.project.travelTracer.checkpoint.dto.checkPointDto;
+import com.project.travelTracer.checkpoint.dto.CheckPointDto;
 import com.project.travelTracer.global.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.PostUpdate;
 import javax.validation.Valid;
 
 @RestController
@@ -22,13 +21,13 @@ public class LocationController {
 
     private final
     //체크 포인트 저장
-    @PostMapping("/checkPointManager")
+    @PostMapping("/CheckpointManager")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CommonResponse> checkPointManger(@Valid @RequestBody checkPointDto CheckPointDto , BindingResult bindingResult) throws Exception{
+     ResponseEntity<CommonResponse> CheckpointManger(@Valid @RequestBody CheckPointDto CheckPointDto , BindingResult bindingResult) throws Exception{
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
-
+        //CheckPointService.
         return ResponseEntity.ok(new CommonResponse<>(200, "성공"));
     }
 }
