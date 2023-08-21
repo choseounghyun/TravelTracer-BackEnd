@@ -21,16 +21,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+//JWT를 사용하여 인증 처리하는 커스텀 필터입니다.
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final MemberRepository memberRepository;
 
+    private final JwtService jwtService;    //JWT관련 기능 제공하는 서비스 객체
+    private final MemberRepository memberRepository;    //회원 정보 조회하기 위한 리포지토리
+
+    //권한 매핑 담당 객체(기본 NullAuthoritiesMapper 사용)
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
+    //인증을 확인하지 않는 URL 지정
     private final String NO_CHECK_URL = "/login";
 
+    //실제로 필터링 작업 수행 메서드
+    //로그인 요청인 경우 필터 체인 통과
+    //그렇지 않는 경우 Access Token 및 인증 확인
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getRequestURI().equals(NO_CHECK_URL)){
@@ -50,13 +57,14 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         checkAccessTokenAndAuthentication(request, response, filterChain);
     }
 
+    //Refresh Token 확인, 해당 Refresh Token이 유효한 경우 새로운 Access Token 발급
     private void checkRefreshTokenAndReissueAccessToken(HttpServletResponse response, String refreshToken) {
         memberRepository.findByRefreshToken(refreshToken).ifPresent(
                 member -> jwtService.sendAccessToken(response, jwtService.createAccessToken(member.getUserId()))
         );
 
     }
-
+    //Access Token 확인 유요한 경우 Access Token에서 사용자 ID 추출하여 회원 정보 조회, 인증 후 저장
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         jwtService.extractAccessToken(request).filter(jwtService::isTokenValid).ifPresent(
                 accessToken -> jwtService.extractUserId(accessToken).ifPresent(
@@ -68,6 +76,8 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
+    //회원 정보 기반으로 UserDetails, Authentication 객체 생성
+    //SecurityContext에 저장 => 인증된 사용자 정보 유지
     private void saveAuthentication(Member member) {
         UserDetails user = User.builder()
                 .username(member.getUserId())
