@@ -23,14 +23,14 @@ public class CheckPoint {
 
     //위도
     @Column(length = 40, nullable = false)
-    private String latitude;
+    private double latitude;
 
     //경도
     @Column(length = 40, nullable = false)
-    private String longitude;
+    private double longitude;
 
     @Builder
-    public CheckPoint(String latitude, String longitude) {
+    public CheckPoint(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
