@@ -1,8 +1,10 @@
-package com.project.travelTracer.checkpoint.dto;
+package com.project.travelTracer.location.dto;
 
-import com.project.travelTracer.member.entity.Member;
+import com.project.travelTracer.location.entity.CheckPoint;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,9 +17,9 @@ public class CheckPointDto {
 
     double latitude;
 
-    long createtime;
+    LocalDateTime createtime;
 
-    public void CheckPointDto(int locationId, String locationName, double longitude, double latitude, long createtime){
+    public void CheckPointDto(int locationId, String locationName, double longitude, double latitude, LocalDateTime createtime){
         this.locationId = locationId;
         this.locationName = locationName;
         this.longitude = longitude;
@@ -28,8 +30,8 @@ public class CheckPointDto {
     public void CheckPointDto(){
 
     }
-    public Checkpoint toEntity() {
-        return Checkpoint.bulider().locationId(locationId)
+    public CheckPoint toEntity() {
+        return CheckPoint.builder().locationId(locationId)
                 .locationName(locationName)
                 .longitude(longitude)
                 .latitude(latitude)
