@@ -1,6 +1,6 @@
-package com.project.travelTracer.checkpoint.service;
+package com.project.travelTracer.location.service;
 
-import com.project.travelTracer.checkpoint.dto.CheckPointDto;
+import com.project.travelTracer.location.dto.CheckPointDto;
 
 public interface CheckPointService {
 

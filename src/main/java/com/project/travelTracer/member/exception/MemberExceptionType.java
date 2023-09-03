@@ -3,6 +3,7 @@ package com.project.travelTracer.member.exception;
 import com.project.travelTracer.global.exception.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 
+// 회원 관련 예외의 종류를 정의하는 MemberExceptionType 열거형(Enum) 클래스
 public enum MemberExceptionType implements BaseExceptionType {
 
     ALREADY_EXIST_USERID(600, HttpStatus.OK, "이미 존재하는 아이디입니다"),
