@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+
 import static com.project.travelTracer.member.entity.QMember.member;
 import static com.project.travelTracer.Post.entity.QPost.post;
 
@@ -52,6 +53,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository{
     private BooleanExpression contentHasStr(String content) {
         return StringUtils.hasLength(content) ? post.content.contains(content) : null;
     }
+
 
     private BooleanExpression titleHasStr(String title) {
         return StringUtils.hasLength(title) ? post.title.contains(title) : null;

@@ -2,6 +2,8 @@ package com.project.travelTracer.location.entity;
 
 import com.project.travelTracer.Post.entity.Post;
 import com.project.travelTracer.comment.entity.Comment;
+import com.project.travelTracer.member.entity.Member;
+import com.project.travelTracer.member.entity.Role;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -39,6 +41,9 @@ public class CheckPoint {
 
     @CreatedDate
     private LocalDateTime createtime;
-    
+
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member member;
 
 }
