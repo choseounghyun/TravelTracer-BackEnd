@@ -42,8 +42,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()//특정 경로에 대한 접근 허용 및 제안 login, signUp, check, findId, findPw 제외하고 나머지 경로 인증 필요
-                .antMatchers("/login", "/signUp", "/", "/check/**", "/findId", "/findPw").permitAll()
-                .antMatchers("/CheckpointManager").authenticated()
+                .antMatchers("/login", "/signUp", "/", "/check/**", "/findId", "/findPw","/CheckpointManager").permitAll()
                 .anyRequest().authenticated();
         http.addFilterAfter(jsonUsernamePasswordFilter(), LogoutFilter.class);  // 커스텀 필터 틍록 (JSON 형식의 사용자 이름, 비밀번호 인증)
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUserIdPasswordAuthenticationFilter.class); //jwtAuthenticationProcessingFilter()는 JWT 인증을 처리하는 커스텀 필터

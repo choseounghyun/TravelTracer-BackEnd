@@ -1,7 +1,5 @@
 package com.project.travelTracer.location.entity;
 
-import com.project.travelTracer.Post.entity.Post;
-import com.project.travelTracer.comment.entity.Comment;
 import com.project.travelTracer.member.entity.Member;
 import com.project.travelTracer.member.entity.Role;
 import lombok.*;
@@ -9,8 +7,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Table(name = "checkpoint")
@@ -40,10 +36,17 @@ public class CheckPoint {
     private double longitude;
 
     @CreatedDate
-    private LocalDateTime createtime;
+    private long createtime;
 
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
+    @Enumerated(EnumType.STRING)
+    private Role role; //권한 -> USER, ADMIN
+
+
+    public void addUserAuthority() {
+        this.role = Role.USER;
+    }
 
 }
