@@ -79,14 +79,18 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     //회원 정보 기반으로 UserDetails, Authentication 객체 생성
     //SecurityContext에 저장 => 인증된 사용자 정보 유지
     private void saveAuthentication(Member member) {
-        UserDetails user = User.builder()
+        // UserDetails 객체 생성
+        UserDetails userDetails = User.builder()
                 .username(member.getUserId())
                 .password(member.getUserPassword())
                 .roles(member.getRole().name())
                 .build();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, authoritiesMapper.mapAuthorities(user.getAuthorities()));
+        // UserDetails를 기반으로 Authentication 객체 생성
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities()));
+        // SecurityContext 생성 및 Authentication 설정
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
+        // SecurityContext를 SecurityContextHolder에 설정
         SecurityContextHolder.setContext(context);
     }
 
