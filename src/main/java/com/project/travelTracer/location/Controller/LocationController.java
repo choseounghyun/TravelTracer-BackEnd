@@ -24,7 +24,7 @@ public class LocationController {
     //체크 포인트 저장
     @PostMapping("/CheckpointManager")
     @ResponseStatus(HttpStatus.OK)
-     ResponseEntity<CommonResponse> CheckpointManger(@Valid @RequestBody CheckPointDto CheckPointDto , BindingResult bindingResult) throws Exception{
+     ResponseEntity<CommonResponse> CheckpointManager(@Valid @RequestBody CheckPointDto CheckPointDto , BindingResult bindingResult) throws Exception{
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }

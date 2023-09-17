@@ -1,7 +1,7 @@
 package com.project.travelTracer.Post.entity;
 
 import com.project.travelTracer.Image.Entity.Image;
-import com.project.travelTracer.checkpoint.entity.CheckPoint;
+import com.project.travelTracer.location.entity.CheckPoint;
 import com.project.travelTracer.comment.entity.Comment;
 import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.member.entity.Member;
