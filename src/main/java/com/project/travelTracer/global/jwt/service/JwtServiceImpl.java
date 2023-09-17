@@ -91,9 +91,9 @@ public class JwtServiceImpl implements JwtService {
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
 
-        Map<String, String > tokemMap = new HashMap<>();
-        tokemMap.put(ACCESS_TOKEN, accessToken);
-        tokemMap.put(REFRESH_TOKEN, refreshToken);
+        Map<String, String > tokenMap = new HashMap<>();
+        tokenMap.put(ACCESS_TOKEN, accessToken);
+        tokenMap.put(REFRESH_TOKEN, refreshToken);
     }
 
     @Override

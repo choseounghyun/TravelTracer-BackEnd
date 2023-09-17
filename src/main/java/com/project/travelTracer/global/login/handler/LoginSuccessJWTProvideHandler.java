@@ -25,12 +25,23 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
     private final MemberRepository memberRepository;
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    // Token 값을 외부로 넘겨주기 위해서 작성
+    private String accessToken;
+    private String refreshToken;
+
+    //getter 메소드
+    public String getAccessToken(){
+        return accessToken;
+    }
+    public String getRefreshToken(){
+        return refreshToken;
+    }
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String userID = extractUserId(authentication);
-        String accessToken = jwtService.createAccessToken(userID);
-        String refreshToken = jwtService.createRefreshToken();
+        accessToken = jwtService.createAccessToken(userID);
+        refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 

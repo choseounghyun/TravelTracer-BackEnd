@@ -3,6 +3,7 @@ package com.project.travelTracer.member.entity;
 import com.project.travelTracer.comment.entity.Comment;
 import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.Post.entity.Post;
+import com.project.travelTracer.location.entity.CheckPoint;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -44,6 +45,10 @@ public class Member extends BaseTimeEntity {
 
     @Column(length = 1000)
     private String refreshToken;
+
+    @Builder.Default
+    @OneToMany(mappedBy="member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CheckPoint> checkpointList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
