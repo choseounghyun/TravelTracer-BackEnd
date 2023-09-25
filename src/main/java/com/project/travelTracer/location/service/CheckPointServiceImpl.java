@@ -18,18 +18,26 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class CheckPointServiceImpl implements CheckPointService
-{
-
+public class CheckPointServiceImpl implements CheckPointService {
     private final CheckPointRepository checkPointRepository;
 
     @Override
     public void CheckpointManager(CheckPointDto CheckPointDto) throws Exception {
-        CheckPoint checkpoint = CheckPointDto.toEntity();
-        checkpoint.addUserAuthority();
+        double latitude = CheckPointDto.getLatitude();
+        double longitude = CheckPointDto.getLongitude();
 
-        checkPointRepository.save(checkpoint);
-        System.out.println("성공?");
-        log.info("save 메소드 실행");
+        // 중복 확인
+        CheckPoint existingCheckpoint = checkPointRepository.findByLatitudeAndLongitude(latitude, longitude);
+        if (existingCheckpoint == null) {
+
+            CheckPoint checkpoint = CheckPointDto.toEntity();
+            checkpoint.addUserAuthority();
+
+            checkPointRepository.save(checkpoint);
+            System.out.println("성공?");
+            log.info("save 메소드 실행");
+        }else {
+            log.info("이미 저장 되어있음");
+        }
     }
 }

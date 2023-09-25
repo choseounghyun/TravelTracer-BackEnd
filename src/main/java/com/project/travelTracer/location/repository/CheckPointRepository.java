@@ -10,4 +10,6 @@ public interface CheckPointRepository extends JpaRepository<CheckPoint, Long> {
     Optional<CheckPoint> findBylocationId(int locationId);
 
     boolean existsBylocationId(int locationId);
+
+    CheckPoint findByLatitudeAndLongitude(double latitude, double longitude);
 }
