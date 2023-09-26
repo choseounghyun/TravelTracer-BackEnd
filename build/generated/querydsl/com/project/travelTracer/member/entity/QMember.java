@@ -24,6 +24,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final NumberPath<Integer> age = createNumber("age", Integer.class);
 
+    public final ListPath<com.project.travelTracer.location.entity.CheckPoint, com.project.travelTracer.location.entity.QCheckPoint> checkpointList = this.<com.project.travelTracer.location.entity.CheckPoint, com.project.travelTracer.location.entity.QCheckPoint>createList("checkpointList", com.project.travelTracer.location.entity.CheckPoint.class, com.project.travelTracer.location.entity.QCheckPoint.class, PathInits.DIRECT2);
+
     public final ListPath<com.project.travelTracer.comment.entity.Comment, com.project.travelTracer.comment.entity.QComment> commentList = this.<com.project.travelTracer.comment.entity.Comment, com.project.travelTracer.comment.entity.QComment>createList("commentList", com.project.travelTracer.comment.entity.Comment.class, com.project.travelTracer.comment.entity.QComment.class, PathInits.DIRECT2);
 
     //inherited

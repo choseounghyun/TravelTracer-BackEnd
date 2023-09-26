@@ -66,7 +66,7 @@ public class QPost extends EntityPathBase<Post> {
 
     public QPost(Class<? extends Post> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.checkpoint = inits.isInitialized("checkpoint") ? new com.project.travelTracer.location.entity.QCheckPoint(forProperty("checkpoint")) : null;
+        this.checkpoint = inits.isInitialized("checkpoint") ? new com.project.travelTracer.location.entity.QCheckPoint(forProperty("checkpoint"), inits.get("checkpoint")) : null;
         this.writer = inits.isInitialized("writer") ? new com.project.travelTracer.member.entity.QMember(forProperty("writer")) : null;
     }
 

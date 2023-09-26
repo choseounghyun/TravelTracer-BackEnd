@@ -20,14 +20,12 @@ public class CheckPointDto {
 
     double latitude;
     @NotNull
-    long createTime;
     // 생성자 이름을 클래스명과 동일하게 변경
-    public CheckPointDto(int locationId, String locationName, double longitude, double latitude, long createTime) {
+    public CheckPointDto(int locationId, String locationName, double longitude, double latitude ) {
         this.locationId = locationId;
         this.locationName = locationName;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.createTime = createTime;
     }
 
     public CheckPointDto() {
@@ -39,7 +37,6 @@ public class CheckPointDto {
                 .locationName(locationName)
                 .longitude(longitude)
                 .latitude(latitude)
-                .createtime(createTime)
                 .build();
     }
 }
