@@ -50,4 +50,3 @@ public class LocationController {
         return ResponseEntity.ok(new CommonResponse<>(200, "성공"));
     }
 }
-
