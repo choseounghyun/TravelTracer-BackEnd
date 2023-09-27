@@ -1,5 +1,6 @@
 package com.project.travelTracer.location.entity;
 
+import com.project.travelTracer.global.time.BaseTimeEntity;
 import com.project.travelTracer.member.entity.Member;
 import com.project.travelTracer.member.entity.Role;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @Builder
-public class CheckPoint {
+public class CheckPoint extends BaseTimeEntity { // 엔티티 생성 시간을 위해 상속
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +35,6 @@ public class CheckPoint {
     //경도
     @Column(length = 40, nullable = false)
     private double longitude;
-
-    @CreatedDate
-    private long createtime;
 
     @ManyToOne
     @JoinColumn(name="member_id")
